@@ -1,0 +1,93 @@
+﻿<Page x:Class="PMLMCustomerClub.View.EntrancePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PMLMCustomerClub.View"
+      xmlns:customControls="clr-namespace:PMLMCustomerClub.CustomControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EntrancePage" Background="White"
+      ScrollViewer.CanContentScroll="True"
+      MinWidth="620">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="3">
+            <Label Content="Welcome to PMLM"
+                   Background="Purple"
+                   Foreground="WhiteSmoke"
+                   FontSize="80"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center"/>
+        </DockPanel>
+        
+        <StackPanel Grid.Row="2" 
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            
+            <customControls:TaleButton x:Name="CustomerTaleButton"
+                                   Background="Purple"
+                                   CornerRadius="30"
+                                   Content="Customers"
+                                   FontSize="30"
+                                   Foreground="WhiteSmoke"
+                                   Width="150"
+                                   Margin="10"
+                                   Click="CustomerTaleButton_Click"/>
+
+            <customControls:TaleButton x:Name="OrderTaleButton"
+                                   Background="Purple"
+                                   CornerRadius="30"
+                                   Content="Orders"
+                                   FontSize="30"
+                                   Foreground="WhiteSmoke"
+                                   Width="150"
+                                   Margin="10"
+                                   Click="OrderTaleButton_Click"/>
+
+            <customControls:TaleButton x:Name="StoreTaleButton"
+                                   Background="Purple"
+                                   CornerRadius="30"
+                                   Content="Store"
+                                   FontSize="30"
+                                   Foreground="WhiteSmoke"
+                                   Width="150"
+                                   Margin="10"
+                                   Click="StoreTaleButton_Click"/>
+
+            <customControls:TaleButton x:Name="ProductTaleButton"
+                                   Background="Purple"
+                                   CornerRadius="30"
+                                   Content="Products"
+                                   FontSize="30"
+                                   Foreground="WhiteSmoke"
+                                   Width="150"
+                                   Margin="10"
+                                   Click="ProductTaleButton_Click"/>
+
+        </StackPanel>
+
+        <DockPanel Grid.Column="0"
+                   Grid.Row="4"
+                   Grid.ColumnSpan="3">
+            <Rectangle Fill="Purple"/>
+
+        </DockPanel>
+
+    </Grid>
+</Page>

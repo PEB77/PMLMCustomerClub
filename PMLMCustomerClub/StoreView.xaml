@@ -1,0 +1,45 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PMLMCustomerClub"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="PMLMCustomerClub.StoreView"
+        mc:Ignorable="d"
+        Title="StoreView" Height="500" Width="800" MinHeight="500" MinWidth="500" Activated="StoreView_Activated">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="140"/>
+            <ColumnDefinition Width="*" MinWidth="360"/>
+        </Grid.ColumnDefinitions>
+        
+        <dxg:GridControl x:Name="StoreItemGridControl" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         Margin="30,50,30,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" 
+                         SelectionMode="Row">
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="StoreTable" AutoWidth="True" 
+                               BestFitModeOnSourceChange="VisibleRows" NewItemRowPosition="Bottom" Margin="10"
+                               NavigationStyle="Row" CanSelectRow="StoreTable_CanSelectRow" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+        <Canvas Grid.Column="1" Grid.Row="1">
+            <Button x:Name="NewStoreItemButtom" Height="40" Width="80" Canvas.Right="30" Canvas.Top="18"
+                Content="New" FontSize="20" Click="NewStoreItemButton_Click"/>
+            <Button x:Name="EditStoreItemButtom" Height="40" Width="80" Canvas.Right="140" Canvas.Top="18"
+                Content="Edit" FontSize="20" Click="EditStoreItemButtom_Click"/>
+            <Button x:Name="DeleteStoreItemButtom" Height="40" Width="80" Canvas.Right="250" Canvas.Top="18"
+                Content="Delete" FontSize="20" Click="DeleteStoreItemButtom_Click"/>
+        </Canvas>
+
+        <Canvas Grid.Column="0" Grid.Row="1">
+            <Button x:Name="BackButton" Content="Back" FontSize="18" Height="40" Width="80"
+                    Canvas.Left="30" Canvas.Top="20" Click="BackButton_Click"/>
+        </Canvas>
+
+    </Grid>
+</Window>

@@ -1,0 +1,329 @@
+﻿<Page x:Class="PMLMCustomerClub.View.CustomerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PMLMCustomerClub.View"
+      xmlns:local2="clr-namespace:PMLMCustomerClub.CustomControls"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      mc:Ignorable="d" 
+      d:DesignHeight="900" d:DesignWidth="450"
+      MinWidth="450"
+      Title="CustomerPage"
+      Background="White">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+        
+        <DockPanel >
+
+                <DockPanel DockPanel.Dock="Top"
+                           Height="40"
+                           Margin="30,50,30,0">
+                    <Label x:Name="IDLabel" 
+                           Height="40" 
+                           Width="100"
+                           Content="ID:" 
+                           FontSize="20" 
+                           DockPanel.Dock="Left"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center"
+                       />
+
+                    <dxe:TextEdit x:Name="IDBox"
+                                  Height="40"
+                                  Width="180"
+                                  FontSize="20"
+                                  IsEnabled="False"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"
+                                  CornerRadius="10"/>
+
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                    <Label x:Name="FirstNameLabel" 
+                       Width="120" 
+                       Height="40"
+                       Content="First Name:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="FirstNameTextEdit" 
+                              Width="150" 
+                              Height="40" 
+                              FontSize="18" 
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="FirstNameTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="LastNameLabel" 
+                       Width="120" 
+                       Height="40"
+                       Content="Last Name:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="LastNameTextEdit"
+                              Width="150"
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="LastNameTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0"
+                       >
+
+                <Label x:Name="Phone"
+                       Width="120"
+                       Height="40" 
+                       Content="Cell Phone:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="PhoneTextEdit"
+                              Width="150"
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="PhoneTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="200"
+                       Margin="30,10,30,0"
+                       >
+                <local2:CalenderViewer x:Name="BirthDayCalender"
+                                       TitleContent="Birth Day:"
+                                       CalenderChange="BirthDayCalender_CalenderChange"
+                                       />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0"
+                       >
+
+                <Label x:Name="ReferralCodeLabel" 
+                       Width="140"
+                       Height="40" 
+                       Content="Referral Code:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:SpinEdit x:Name="ReferralCodeSpinEdit" 
+                              Width="80"
+                              Height="40"
+                              FontSize="18"
+                              Text="0" 
+                              MinValue="0" 
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top"
+                              CornerRadius="10"
+                              EditValueChanged="ReferralCodeSpinEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <TextBlock x:Name="ReferralerPersonTextBlock"
+                       Height="40"
+                       Text="referral Person"
+                       FontSize="18"
+                       DockPanel.Dock="Top"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Top"
+                       TextAlignment="Center"
+                       Margin="30,10,30,0"
+                       />
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="StateLabel"
+                       Width="140"
+                       Height="40"
+                       Content="State:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="StateTextEdit" 
+                              Width="150" 
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="StateTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="CityLabel" 
+                       Width="140" 
+                       Height="40"
+                       Content="City:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="CityTextEdit"
+                              Width="150"
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="CityTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="auto"
+                       Margin="30,10,30,0">
+                
+                <Label x:Name="LocationLabel" 
+                       Width="140" 
+                       Height="40"
+                       Content="Location:" 
+                       FontSize="20"
+                       DockPanel.Dock="Top"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBox x:Name="LocationTextBox"
+                         Height="140"
+                         FontSize="16"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         TextChanged="LocationTextBox_TextChanged"
+                         />
+                
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0"
+                       >
+
+                <Label x:Name="ZipCodeLabel"
+                       Width="140"
+                       Height="40"
+                       Content="Zip-Code:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TextEdit x:Name="ZipCodeTextEdit" 
+                              Width="150" 
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="ZipCodeTextEdit_EditValueChanged"
+/>
+
+            </DockPanel>
+
+            <DockPanel/>
+
+        </DockPanel>
+
+        </ScrollViewer>
+
+
+        <Grid Grid.Row="1">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <local2:TaleButton x:Name="AcceptButton"
+                               Grid.Column="3"
+                               Height="40"
+                               Width="100"
+                               Content="Accept"
+                               FontSize="20"
+                               Background="Purple"
+                               Foreground="White"
+                               CornerRadius="15"
+                               Click="AcceptButton_Click"/>
+
+            <local2:TaleButton x:Name="CancleButton"
+                               Grid.Column="1"
+                               Height="40"
+                               Width="100"
+                               Content="Cancel"
+                               FontSize="20"
+                               Background="Purple"
+                               Foreground="White"
+                               CornerRadius="15"
+                               Click="CancleButton_Click"
+                               />
+
+        </Grid>
+
+    </Grid>
+</Page>

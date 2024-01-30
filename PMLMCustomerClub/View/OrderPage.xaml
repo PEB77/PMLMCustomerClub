@@ -1,0 +1,461 @@
+﻿<Page x:Class="PMLMCustomerClub.View.OrderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local2="clr-namespace:PMLMCustomerClub.CustomControls"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:local="clr-namespace:PMLMCustomerClub.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="1300" d:DesignWidth="450"
+      MinWidth="450"
+      MaxWidth="500"
+      Title="OrderPage"
+      Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Column="0"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+        <DockPanel>
+
+                <DockPanel DockPanel.Dock="Top"
+                           Height="40"
+                           Margin="30,50,30,0">
+                    <Label x:Name="IDLabel" 
+                           Height="40" 
+                           Width="100"
+                           Content="ID:" 
+                           FontSize="20" 
+                           DockPanel.Dock="Left"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center"
+                       />
+
+                    <dxe:TextEdit x:Name="IDBox"
+                                  Height="40"
+                                  Width="180"
+                                  FontSize="20"
+                                  IsEnabled="False"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"
+                                  CornerRadius="10"/>
+                </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="CustomerNameLabel"
+                       Width="160"
+                       Height="40"
+                       Content="Customer Name:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:ComboBoxEdit x:Name="CustomerNameComboBox"
+                                  Width="180"
+                                  Height="40"
+                                  ItemsSource="{Binding}"
+                                  AutoComplete="True"
+                                  FontSize="20"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"
+                                  CornerRadius="10"
+                                  EditValueChanged="CustomerNameComboBox_EditValueChanged"
+                                  />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="CustomerCreditLabel"
+                       Width="60"
+                       Height="40"
+                       Content="Credit:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBlock x:Name="CustomerCreditTextBlock"
+                           Width="100"
+                           Height="40"
+                           Text="#######"
+                           FontSize="20"
+                           TextAlignment="Right"
+                           DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="CustomerReferralCodeLabel"
+                       Width="130" 
+                       Height="40"
+                       Content="Referral Code:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBlock x:Name="CustomerReferralCodeTextBlock"
+                           Width="50"
+                           Height="40"
+                           Text="##"
+                           FontSize="20"
+                           TextAlignment="Center"
+                           DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="CustomerBirthDayLabel"
+                       Width="100" 
+                       Height="40"
+                       Content="Birth Day:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBlock x:Name="CustomerBirthDayTextBlock"
+                           Width="100"
+                           Height="40"
+                           Text="##-##-##"
+                           FontSize="20"
+                           DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="90"
+                       Margin="30,50,30,0">
+
+                <Label x:Name="ProductNameLabel"
+                       Width="140"
+                       Height="40"
+                       Content="Product Name:"
+                       FontSize="20"
+                       DockPanel.Dock="Top"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:ComboBoxEdit x:Name="ProductNameComboBoxEdit"
+                                  Height="40"
+                                  ItemsSource="{Binding}"
+                                  AutoComplete="True"
+                                  FontSize="20"
+                                  DockPanel.Dock="Bottom"
+                                  HorizontalAlignment="Stretch"
+                                  CornerRadius="10"
+                                  EditValueChanged="ProductNameComboBoxEdit_EditValueChanged"
+                                  />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="ProductInStoreDateExpLabel"
+                       Width="120" 
+                       Height="40"
+                       Content="Date Exp:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:ComboBoxEdit x:Name="ProductInStoreDateExpComboBoxEdit" 
+                                  Width="150" 
+                                  Height="40"
+                                  ItemsSource="{Binding}"
+                                  FontSize="20"
+                                  IsEnabled="False"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"
+                                  CornerRadius="10"
+                                  EditValueChanged="ProductInStoreDateExpComboBoxEdit_EditValueChanged"
+                                  />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="ProductAmountLabel" 
+                       Width="100"
+                       Height="40"
+                       Content="Amount:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:SpinEdit x:Name="ProductAmountSpinEdit"
+                              Width="60"
+                              Height="40"
+                              MinValue="0"
+                              Text="0"
+                              FontSize="20"
+                              IsEnabled="False"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="ProductAmountSpinEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <Grid DockPanel.Dock="Top"
+                  Height="40"
+                  Margin="30,10,30,0">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <local2:TaleButton x:Name="RemoveProductButton" 
+                                   Width="100"
+                                   Height="40"
+                                   Content="Remove"
+                                   FontSize="20"
+                                   IsEnabled="False"
+                                   Grid.Column="1"
+                                   Background="Purple"
+                                   Foreground="White"
+                                   CornerRadius="15"
+                                   Click="RemoveProductButton_Click"
+                                   />
+
+                <local2:TaleButton x:Name="AddProductButton"
+                                   Width="100"
+                                   Height="40"
+                                   Content="Add"
+                                   FontSize="20" 
+                                   IsEnabled="False"
+                                   Grid.Column="3"
+                                   Background="Purple"
+                                   Foreground="White"
+                                   CornerRadius="15"
+                                   Click="AddProductButton_Click"
+                                   />
+
+            </Grid>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="200"
+                       Margin="30,10,30,0">
+
+                <dxg:GridControl x:Name="ProductSelectedGridControl"
+                                 AutoGenerateColumns="AddNew"
+                                 EnableSmartColumnsGeneration="True"
+                                 Width="Auto"
+                                 Height="Auto"
+                                 Margin="0,30"
+                                 SelectionMode="Row"
+                                 >
+                    <dxg:GridControl.View>
+                        <dxg:TableView x:Name="ProductSelectedTable"
+                                       AutoWidth="True"
+                                       BestFitModeOnSourceChange="VisibleRows"
+                                       NewItemRowPosition="Bottom"
+                                       NavigationStyle="Row"
+                                       CanSelectRow="ProductSelectedTable_CanSelectRow"
+                                       />
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,50,30,0">
+
+                <dxe:CheckEdit x:Name="UseBirthdayGiftCheckEdit"
+                               Width="150"
+                               Height="40"
+                               Content="Birthday Gift"
+                               FontSize="20"
+                               IsChecked="False"
+                               IsEnabled="False"
+                               DockPanel.Dock="Left"
+                               HorizontalAlignment="Left"
+                               VerticalContentAlignment="Center"
+                               Checked="UseBirthdayGiftCheckEdit_Checked"
+                               />
+
+                <dxe:SpinEdit x:Name="BirthdayGiftAmountTextEdit"
+                              Width="120"
+                              Height="40"
+                              FontSize="20"
+                              IsEnabled="False"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="BirthdayGiftAmountTextEdit_EditValueChanged"
+                              />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0"
+                       >
+
+                <Label x:Name="UseCreditLabel"
+                       Height="40"
+                       Width="150"
+                       Content="Credit:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <dxe:TrackBarEdit x:Name="UseCreditSpinEdit"
+                                  Height="40"
+                                  Maximum="100"
+                                  Minimum="0"
+                                  Steps="100"
+                                  IsEnabled="False"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Stretch"
+                                  EditValueChanged="UseCreditSpinEdit_EditValueChanged"
+                                  />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="OrderTotalPriceLabel"
+                       Height="40"
+                       Width="150"
+                       Content="Total Price:"
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBlock x:Name="OrderTotalPriceTextEdit"
+                           Height="40"
+                           Width="150"
+                           FontSize="20"
+                           DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           />
+
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="200"
+                       Margin="30,10,30,0">
+
+                <Label x:Name="DescriptionLabel"
+                       Width="120"
+                       Height="40"
+                       Content="Description:"
+                       FontSize="20"
+                       DockPanel.Dock="Top"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                <TextBox x:Name="DescriptionTextBox"
+                         Width="Auto"
+                         Height="Auto"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         DockPanel.Dock="Bottom"
+                         TextChanged="DescriptionTextBox_TextChanged"
+                         />
+
+            </DockPanel>
+            
+            <DockPanel/>
+
+        </DockPanel>
+        
+    
+        
+
+        </ScrollViewer>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <local2:TaleButton x:Name="AcceptButton"
+                               Grid.Column="3"
+                               Height="40"
+                               Width="100"
+                               Content="Accept"
+                               FontSize="20"
+                               Background="Purple"
+                               Foreground="White"
+                               CornerRadius="15"
+                               Click="AcceptButton_Click"
+                               />
+
+            <local2:TaleButton x:Name="CancleButton"
+                               Grid.Column="1"
+                               Height="40"
+                               Width="100"
+                               Content="Cancel"
+                               FontSize="20"
+                               Background="Purple"
+                               Foreground="White"
+                               CornerRadius="15"
+                               Click="CancleButton_Click"
+                               />
+
+        </Grid>
+    </Grid>
+</Page>

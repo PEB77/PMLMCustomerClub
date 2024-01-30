@@ -1,0 +1,46 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PMLMCustomerClub"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="PMLMCustomerClub.CustomersView"
+        mc:Ignorable="d"
+        Title="CustomersView" Height="500" Width="800" MinWidth="500" MinHeight="500"
+        Activated="CustomersView_Activated">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="140"/>
+            <ColumnDefinition Width="*" MinWidth="360"/>
+        </Grid.ColumnDefinitions>
+        
+        <dxg:GridControl x:Name="CustomersGridControl" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         VerticalAlignment="Top" HorizontalAlignment="Center" Height="Auto" Width="Auto" 
+                         Margin="30,50,30,0" Grid.ColumnSpan="2" SelectionMode="Row">
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="CustomerTable" AutoWidth="True" BestFitModeOnSourceChange="VisibleRows"
+                               NewItemRowPosition="Bottom" NavigationStyle="Row" CanSelectRow="CustomerTable_CanSelectRow"/>
+            </dxg:GridControl.View>
+
+        </dxg:GridControl>
+
+        <Canvas Grid.Column="1" Grid.Row="1">
+            <Button x:Name="NewCustomerButton" Height="40" Width="80" Canvas.Right="30" Canvas.Top="20"
+                    Content="New" FontSize="20" Click="NewCustomerButton_Click"/>
+            <Button x:Name="EditCustomerButton" Height="40" Width="80" Canvas.Right="140" Canvas.Top="20"
+                    Content="Edit" FontSize="20" Click="EditCustomerButton_Click"/>
+            <Button x:Name="DeleteCustomerButton" Height="40" Width="80" Canvas.Right="250" Canvas.Top="20"
+                    Content="Delete" FontSize="20" Click="DeleteCustomerButton_Click"/>
+        </Canvas>
+
+        <Canvas Grid.Column="0" Grid.Row="1">
+            <Button x:Name="BackButton" Height="40" Width="80" Canvas.Left="30" Canvas.Top="20"
+                    Content="Back" FontSize="20" Click="BackButton_Click"/>
+        </Canvas>
+        
+    </Grid>
+</Window>

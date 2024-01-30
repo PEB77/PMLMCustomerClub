@@ -1,0 +1,102 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PMLMCustomerClub.View"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" x:Class="PMLMCustomerClub.View.MainPage"
+      xmlns:local2="clr-namespace:PMLMCustomerClub.CustomControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage"
+      Background="White">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu Background="WhiteSmoke">
+            <MenuItem Header="File" 
+                      FontSize="12"
+                      x:Name="FileMenu"
+                      Foreground="Purple">
+                <MenuItem Header="New Customer"
+                          FontSize="12"/>
+                <MenuItem Header="New Order"
+                          FontSize="12"/>
+                <MenuItem Header="New Store Item"
+                          FontSize="12"/>
+                <MenuItem Header="New Product"
+                          FontSize="12"/>
+                <MenuItem x:Name="ExportStoreItems"
+                          Header="Export Store Items"
+                          FontSize="12"
+                          Foreground="Purple"
+                          Click="ExportStoreItems_Click"/>
+
+            </MenuItem>
+            <MenuItem Header="Setting" 
+                      FontSize="12"
+                      x:Name="SettingMenu"
+                      Foreground="Purple">
+
+            </MenuItem>
+        </Menu>
+
+        <DockPanel Grid.Row="1">
+
+        <dx:DXTabControl x:Name="MainTabControl"
+                         DockPanel.Dock="Left"
+                         SelectionChanged="MainTabControl_SelectionChanged">
+            <dx:DXTabControl.View>
+                <dx:TabControlScrollView HeaderLocation="Left" HeaderOrientation="Vertical"/>
+            </dx:DXTabControl.View>
+            <dx:DXTabItem x:Name="CustomersTabHeader"
+                          Header="Customers"
+                          >
+                <DockPanel>
+                    <local2:TableViewer x:Name="CustomerTableViewer"
+                                        >
+                        
+                    </local2:TableViewer>
+                </DockPanel>
+            </dx:DXTabItem>
+
+            <dx:DXTabItem x:Name="OrdersTabHeader"
+                          Header="Orders">
+                <DockPanel>
+                    <local2:TableViewer x:Name="OrderTableViewer"
+                                        >
+                        
+                    </local2:TableViewer>
+                </DockPanel>
+            </dx:DXTabItem>
+
+            <dx:DXTabItem x:Name="StoreTabHeader"
+                          Header="Store">
+                <DockPanel>
+                    <local2:TableViewer x:Name="StoreTableViewer"
+                                        >
+                        
+                    </local2:TableViewer>
+                </DockPanel>
+            </dx:DXTabItem>
+
+            <dx:DXTabItem x:Name="ProductTabHeader"
+                          Header="Product">
+                <DockPanel>
+                    <local2:TableViewer x:Name="ProductTableViewer"
+                                        >
+                        
+                    </local2:TableViewer>
+                </DockPanel>
+            </dx:DXTabItem>
+
+        </dx:DXTabControl>
+
+    </DockPanel>
+    </Grid>
+</Page>

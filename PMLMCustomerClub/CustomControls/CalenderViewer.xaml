@@ -1,0 +1,239 @@
+﻿<UserControl x:Class="PMLMCustomerClub.CustomControls.CalenderViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PMLMCustomerClub.CustomControls"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="160" d:DesignWidth="280"
+             MaxHeight="200"
+             MinHeight="200"
+             MinWidth="350"
+             Background="White">
+    <DockPanel>
+        <Label x:Name="TitleLabel"
+               Content="Title"
+               FontSize="20"
+               VerticalContentAlignment="Center"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               DockPanel.Dock="Top"
+               />
+
+        
+        <dx:DXTabControl x:Name="CalenderTab"
+                         Margin="0,5"
+                         SelectionChanged="DXTabControl_SelectionChanged">
+
+            <dx:DXTabItem Header="Persian"
+                          FontSize="16"
+                          x:Name="PersianCalenderHeader">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <DockPanel>
+                        
+                        <Label x:Name="PersianYear"
+                               Content="Year:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:SpinEdit x:Name="PersianYearEditor"
+                                      Height="30"
+                                      Width="70"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                      EditValueChanged="PersianYearEditor_EditValueChanged"/>
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                    <GridSplitter Margin="5,0"/>
+
+                    <DockPanel>
+                        <Label x:Name="PersianMonth"
+                               Content="Month:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:ComboBoxEdit x:Name="PersianMonthEditor"
+                                      Height="30"
+                                      Width="140"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                      EditValueChanged="PersianMonthEditor_EditValueChanged"/>
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                    <GridSplitter Margin="5,0"/>
+
+                    <DockPanel>
+                        <Label x:Name="PersianDay"
+                               Content="Day:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:SpinEdit x:Name="PersianDayEditor"
+                                      Height="30"
+                                      Width="70"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                      EditValueChanged="PersianDayEditor_EditValueChanged"/>
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                </StackPanel>
+            </dx:DXTabItem>
+
+            <dx:DXTabItem Header="Gregorian"
+                          FontSize="16"
+                          x:Name="GregorianCalenderHeader">
+
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <DockPanel>
+
+                        <Label x:Name="GregorianYear"
+                               Content="Year:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:SpinEdit x:Name="GregorianYearEditor"
+                                      Height="30"
+                                      Width="70"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                      EditValueChanged="GregorianYearEditor_EditValueChanged"
+                                      />
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                    <GridSplitter Margin="5,0"/>
+
+                    <DockPanel>
+                        <Label x:Name="GregorianMonth"
+                               Content="Month:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:ComboBoxEdit x:Name="GregorianMonthEditor"
+                                      Height="30"
+                                      Width="140"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                          EditValueChanged="GregorianMonthEditor_EditValueChanged"
+                                          />
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                    <GridSplitter Margin="5,0"/>
+
+                    <DockPanel>
+                        <Label x:Name="GregorianDay"
+                               Content="Day:"
+                               DockPanel.Dock="Top"
+                               FontSize="16"
+                               Width="70"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Center"/>
+
+                        <dxe:SpinEdit x:Name="GregorianDayEditor"
+                                      Height="30"
+                                      Width="70"
+                                      FontSize="16"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Bottom"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Margin="0,10,0,0"
+                                      CornerRadius="10"
+                                      EditValueChanged="GregorianDayEditor_EditValueChanged"/>
+
+                        <DockPanel/>
+
+                    </DockPanel>
+
+                </StackPanel>
+
+            </dx:DXTabItem>
+            
+        </dx:DXTabControl>    
+        
+    </DockPanel>
+</UserControl>

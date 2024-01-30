@@ -1,0 +1,50 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PMLMCustomerClub"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="PMLMCustomerClub.OrdersView"
+        mc:Ignorable="d"
+        Title="OrdersView" Height="600" Width="800" MinHeight="600" MinWidth="500"
+        x:Name="OrdersWindows" Activated="OrdersWindows_Activated">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="400"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="140"/>
+            <ColumnDefinition Width="*" MinWidth="360"/>
+        </Grid.ColumnDefinitions>
+
+
+        <dxg:GridControl x:Name="OrdersGridControl" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" 
+                         Height="Auto" Width="Auto" Margin="30,50,30,0" SelectionMode="Row">
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="OrdersTable" AutoWidth="True" BestFitModeOnSourceChange="VisibleRows"
+                               NewItemRowPosition="Bottom" NavigationStyle="Row" CanSelectRow="OrdersTable_CanSelectRow"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+        <Canvas Grid.Column="1" Grid.Row="1">
+            <Button x:Name="NewOrderButton" Height="40" Width="80" Canvas.Top="20" Canvas.Right="30"
+                    Content="New" FontSize="20" Click="NewOrderButton_Click"/>
+            <Button x:Name="EditOrdersButton" Height="40" Width="80" Canvas.Top="20" Canvas.Right="140"
+                    Content="Edit" FontSize="20" 
+                    IsEnabled="False"
+                    Click="EditOrdersButton_Click"/>
+            <Button x:Name="DeleteOrdersButton" Height="40" Width="80" Canvas.Top="20" Canvas.Right="250"
+                    Content="Delete" FontSize="20"
+                    IsEnabled="False"
+                    Click="DeleteOrdersButton_Click"/>
+        </Canvas>
+
+        <Canvas Grid.Column="0" Grid.Row="1">
+            <Button x:Name="BackButton" Height="40" Width="80" Canvas.Top="20" Canvas.Left="30"
+                    Content="Back" FontSize="20" Click="BackButton_Click"/>
+        </Canvas>
+        
+    </Grid>
+</Window>
