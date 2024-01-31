@@ -62,6 +62,7 @@ namespace PMLMCustomerClub.Code
             Page.CustomerNameComboBox.ItemsSource = PrepareCustomerSource(Manager.AllDataTables[ProjectManager.SelectPart.CUSTOMER]);
             Page.ProductNameComboBoxEdit.ItemsSource = PrepareProductSource(Manager.AllDataTables[ProjectManager.SelectPart.PRODUCT]);
             Page.ProductSelectedGridControl.ItemsSource = Order.Products;
+            if (IsEditMode) Page.CustomerNameComboBox.Text = Order.Customer.FirstName + "-" + Order.Customer.LastName;
         }
 
         private List<string> PrepareCustomerSource(DataTable table)
@@ -292,7 +293,10 @@ namespace PMLMCustomerClub.Code
 
         public void InitObject()
         {
-            throw new NotImplementedException();
+            Order = Order.GetOrder(RowFocused);
+            Page = new OrderPage();
+            Viewer.Frame.Content = Page;
+            InitPage();
         }
 
         public void InitPage()
@@ -303,7 +307,14 @@ namespace PMLMCustomerClub.Code
 
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            FileManager.UpdateOrder(Order);
+            OrderDatabase.UpdateRow(Order);
+            Task task = Manager.LoadDatabase();
+            task.Wait();
+            RowFocused = null;
+            Viewer.Frame.Content = null;
+            Viewer.EditButtonEnable = false;
+            Viewer.DeleteButtonEnable = false;
         }
 
         public void Page_AcceptNewProduct(object sender, RoutedEventArgs e)
@@ -323,12 +334,22 @@ namespace PMLMCustomerClub.Code
 
         public void Viewer_DeleteButtonClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            int id = int.Parse(RowFocused[0].ToString());
+            Order = Order.GetOrder(RowFocused);
+            FileManager.DeleteOrderFile(Order);
+            OrderDatabase.DeleteRow(Order);
+            Task task = Manager.LoadDatabase();
+            task.Wait();
+            RowFocused = null;
+            Viewer.EditButtonEnable = false;
+            Viewer.DeleteButtonEnable = false;
         }
 
         public void Viewer_EditButtonClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            IsEditMode = true;
+            InitObject();
+            AcceptValidation();
         }
 
         public void Viewer_NewButtonClick(object sender, RoutedEventArgs e)
@@ -339,7 +360,11 @@ namespace PMLMCustomerClub.Code
 
         public void Viewer_TableSelectingRow(object sender, CanSelectRowEventArgs e)
         {
-            
+            DataRowView row = (DataRowView)e.Row;
+            RowFocused = (row == null) ? null : row.Row;
+            Viewer.EditButtonEnable = !(RowFocused == null);
+            Viewer.DeleteButtonEnable = !(RowFocused == null);
         }
+
     }
 }

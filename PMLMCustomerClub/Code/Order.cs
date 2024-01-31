@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -70,6 +72,22 @@ namespace PMLMCustomerClub.Code
             OrderDate = DateTime.Now;
             FileName = "Order-" + DateTime.Now.ToString("yyyy-MM-dd") + " " + DateTime.Now.ToString("HH-mm-ss");
             if (CreditUsed > 0) UseCredit = true; 
+        }
+
+        public static Order GetOrder(DataRow data)
+        {
+            Order order = new Order();
+            order.ID = int.Parse(data[0].ToString());
+            order.OrderDate = DateTime.Parse(data[1].ToString());
+            int customerID = int.Parse(data[2].ToString());
+            Customer customer;
+            CustomerDatabase.TryLookUp(customerID, out customer);
+            order.Customer = customer;
+            order.FileName = data[5].ToString();
+            order.TotalPrice = int.Parse(data[6].ToString());
+            order.Products = FileManager.LoadProducts(order);
+            order.FinalBill();
+            return order;
         }
 
     }

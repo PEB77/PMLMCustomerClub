@@ -156,13 +156,13 @@ namespace PMLMCustomerClub.Code
 
         internal static void UpdateCredit(int customerID, int orderPrice, bool isIncrese = true)
         {
-            //Customer customer;
-            //TryLookUp(customerID, out customer);
-            //if (isIncrese)
-            //    customer.Credit += (int)(orderPrice * 0.1);
-            //else
-            //    customer.Credit -= (int)(orderPrice * 0.1);
-            //UpdateRow(customer);
+            Customer customer;
+            TryLookUp(customerID, out customer);
+            if (isIncrese)
+                customer.Credit += (int)(orderPrice * 0.1);
+            else
+                customer.Credit -= (int)(orderPrice * 0.1);
+            UpdateRow(customer);
         }
 
         public static int GetNextID()

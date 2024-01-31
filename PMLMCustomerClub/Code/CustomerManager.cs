@@ -177,6 +177,7 @@ namespace PMLMCustomerClub.Code
         public void Viewer_DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             int id = int.Parse(RowFocused[0].ToString());
+            Customer = Customer.GetCustomer(RowFocused);
             FileManager.DeleteCustomerFolder(Customer.FolderName);
             CustomerDatabase.DeleteRow(id);
             Task task = Manager.LoadDatabase();

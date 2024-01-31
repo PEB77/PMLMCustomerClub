@@ -55,7 +55,7 @@ namespace PMLMCustomerClub.Code
             command.ExecuteNonQuery();
             con.Close();
         }
-        public static void UpdateRow(OrdersInfo order)
+        public static void UpdateRow(Order order)
         {
             StoreDatabase.UpdateStore(order.Products);
             if (order.Customer.ReferralCode != 0)
@@ -64,13 +64,14 @@ namespace PMLMCustomerClub.Code
             if (order.UseCredit)
                 CustomerDatabase.UpdateCredit(order.Customer.ID, order.CreditUsed * ForReachingSameResult, false);
 
-            string quary = "UPDATE orders_list SET order_date = @value0, customer_id = @value1, customer_name = @value2, file_name = @value3, order_price = @value4 WHERE order_id = @id ";
+            string quary = "UPDATE orders_list SET order_date = @value0, customer_id = @value1, customer_firstname = @value2, customer_lastname = @value3, file_name = @value4, order_price = @value5 WHERE order_id = @id ";
 
             string value0 = ConvertDateTime(order.OrderDate);
             string value1 = order.Customer.ID.ToString();
-            string value2 = order.Customer.Name;
-            string value3 = order.FileName;
-            string value4 = order.TotalPrice.ToString();
+            string value2 = order.Customer.FirstName;
+            string value3 = order.Customer.LastName;
+            string value4 = order.FileName;
+            string value5 = order.TotalPrice.ToString();
             string id = order.ID.ToString();
 
             MySqlConnection con = new MySqlConnection(ConnectString);
@@ -83,6 +84,7 @@ namespace PMLMCustomerClub.Code
                 command.Parameters.AddWithValue("@value2", value2);
                 command.Parameters.AddWithValue("@value3", value3);
                 command.Parameters.AddWithValue("@value4", value4);
+                command.Parameters.AddWithValue("@value5", value5);
                 command.Parameters.AddWithValue("@id", id);
 
                 command.ExecuteNonQuery();
@@ -90,7 +92,7 @@ namespace PMLMCustomerClub.Code
 
             con.Close();
         }
-        public static void DeleteRow(OrdersInfo order, bool isDeleteProcessor = true)
+        public static void DeleteRow(Order order, bool isDeleteProcessor = true)
         {
             StoreDatabase.InsertCanclation(order.Products);
             if (order.Customer.ReferralCode != 0)

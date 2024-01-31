@@ -74,28 +74,46 @@ namespace PMLMCustomerClub.Code
             File.WriteAllText(filePath + DoubleSlash + order.FileName + OrderFileIndex, content);
         }
 
-        public static OrdersInfo LoadOrder(CustomerProfile customer, string orderFileName)
+        public static List<StoreItem> LoadProducts(Order order)
         {
-            string filePath = StartUpFilePath + CustomersFolderPath
-                + DoubleSlash + customer.FilePath + DoubleSlash + orderFileName + OrderFileIndex;
-            OrdersInfo orderInfo = new OrdersInfo();
+            string filePath = CreateOrderFilePath(order);
+            Order oldOrder = new Order();
             try
             {
                 string content = File.ReadAllText(filePath);
-                orderInfo = JsonConvert.DeserializeObject<OrdersInfo>(content);
+                oldOrder = JsonConvert.DeserializeObject<Order>(content);
             }
             catch
             {
+                
+            }
+            return oldOrder.Products;
+        }
+
+        public static void UpdateOrder(Order order)
+        {
+            string filePath = StartUpFilePath + CustomersFolderPath + DoubleSlash + order.Customer.FolderName;
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
 
             }
-            return orderInfo;
+            string content = JsonConvert.SerializeObject(order.Customer);
+            File.WriteAllText(filePath + CustomerProfileName, content);
         }
 
-        public static void DeleteOrderFile(CustomerProfile customer, string orderFileName)
+        public static void DeleteOrderFile(Order order)
         {
-            string filePath = StartUpFilePath + CustomersFolderPath +
-                DoubleSlash + customer.FilePath + DoubleSlash + orderFileName + OrderFileIndex;
+            string filePath = CreateOrderFilePath(order);
             File.Delete(filePath);
         }
+
+        private static string CreateOrderFilePath(Order order)
+        {
+            return StartUpFilePath + CustomersFolderPath +
+                DoubleSlash + order.Customer.FolderName + DoubleSlash + order.FileName + OrderFileIndex;
+        }
+
     }
 }
