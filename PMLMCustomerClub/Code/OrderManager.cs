@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using PMLMCustomerClub.Database;
 
 namespace PMLMCustomerClub.Code
 {
@@ -237,7 +238,7 @@ namespace PMLMCustomerClub.Code
                 return;
             }
             string name = e.NewValue.ToString();
-            if (StoreDatabase.TryLookUp(name, out Items))
+            if (Manager.StoreDatabase.TryExplore(name, out Items))
             {
                 Page.ProductInStoreDateExpComboBoxEdit.IsEnabled = true;
                 Page.ProductInStoreDateExpComboBoxEdit.SelectedIndex = -1;
@@ -259,7 +260,7 @@ namespace PMLMCustomerClub.Code
             Customer customer = new Customer();
             string rawInput = e.NewValue.ToString();
             string[] namesParts = rawInput.Split('-');
-            if (CustomerDatabase.TryLookUp(namesParts[0], namesParts[1], out customer))
+            if (Manager.CustomerDatabase.TryExplore(namesParts[0], namesParts[1], out customer))
             {
                 Order.Customer = customer;
                 CheckDiscounts();
@@ -285,7 +286,7 @@ namespace PMLMCustomerClub.Code
 
         public void InitNewObject()
         {
-            Order = new Order().SetID(OrderDatabase.GetNextID());
+            Order = new Order().SetID(Manager.OrderDatabase.GetNextID());
             Page = new OrderPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -308,7 +309,7 @@ namespace PMLMCustomerClub.Code
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
             FileManager.UpdateOrder(Order);
-            OrderDatabase.UpdateRow(Order);
+            Manager.OrderDatabase.Update(Order);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -321,7 +322,7 @@ namespace PMLMCustomerClub.Code
         {
             Order.CreateFileName();
             FileManager.SaveOrder(Order);
-            OrderDatabase.InsertNewRow(Order);
+            Manager.OrderDatabase.Insert(Order);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -337,7 +338,7 @@ namespace PMLMCustomerClub.Code
             int id = int.Parse(RowFocused[0].ToString());
             Order = Order.GetOrder(RowFocused);
             FileManager.DeleteOrderFile(Order);
-            OrderDatabase.DeleteRow(Order);
+            Manager.OrderDatabase.Delete(Order);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;

@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PMLMCustomerClub.Database;
 
 namespace PMLMCustomerClub.Code
 {
@@ -47,7 +48,7 @@ namespace PMLMCustomerClub.Code
         public void Viewer_DeleteButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
             int id = int.Parse(RowFocused[0].ToString());
-            ProductDatabase.DeleteRow(id);
+            Manager.ProductDatabase.Delete(id);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -79,7 +80,7 @@ namespace PMLMCustomerClub.Code
         public void InitNewObject()
         {
             Product = new Product();
-            Product.ProductID = ProductDatabase.GetNextID();
+            Product.ProductID = Manager.ProductDatabase.GetNextID();
             Page = new ProductPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -111,7 +112,7 @@ namespace PMLMCustomerClub.Code
 
         public void Page_AcceptEditedProduct(object sender, System.Windows.RoutedEventArgs e)
         {
-            ProductDatabase.UpdateRow(Product);
+            Manager.ProductDatabase.Update(Product);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -122,7 +123,7 @@ namespace PMLMCustomerClub.Code
 
         public void Page_AcceptNewProduct(object sender, System.Windows.RoutedEventArgs e)
         {
-            ProductDatabase.InsertNewRow(Product);
+            Manager.ProductDatabase.Insert(Product);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();

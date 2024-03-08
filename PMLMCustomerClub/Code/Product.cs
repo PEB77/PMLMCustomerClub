@@ -77,8 +77,10 @@ namespace PMLMCustomerClub.Code
             Product product = new Product();
             product.ProductID = int.Parse(data[0].ToString());
             product.ProductName = data[1].ToString();
-            product.Category = (Categories)Enum.Parse(typeof(Categories), data[2].ToString().Replace(" ", "_"));
-            product.Brand = (Brands)Enum.Parse(typeof(Brands), data[3].ToString().Replace(" ", "_"));
+            string[] categoryParts = data[2].ToString().Split(' ');
+            product.Category = (Categories)Enum.Parse(typeof(Categories), categoryParts[0] + "_" + categoryParts[1]);
+            string[] brandParts = data[3].ToString().Split(' ');
+            product.Brand = (Brands)Enum.Parse(typeof(Brands), brandParts[0] + "_" + brandParts[1]);
             product.Price = int.Parse(data[4].ToString());
             return product;
         }

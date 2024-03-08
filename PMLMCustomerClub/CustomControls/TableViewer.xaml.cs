@@ -39,6 +39,12 @@ namespace PMLMCustomerClub.CustomControls
 
         public event TableSelectingRowEventHandler TableSelectingRow;
 
+        public object ItemSource
+        {
+            get => GridControl.ItemsSource;
+            set => GridControl.ItemsSource = value;
+        }
+
         public GridControl GridControlProp
         {
             get => GridControl;

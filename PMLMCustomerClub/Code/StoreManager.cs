@@ -131,7 +131,7 @@ namespace PMLMCustomerClub.Code
 
         public void InitNewObject()
         {
-            StoreItem = new StoreItem().SetStoreID(StoreDatabase.GetNextID());
+            StoreItem = new StoreItem().SetStoreID(Manager.StoreDatabase.GetNextID());
             Page = new StorePage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -153,7 +153,7 @@ namespace PMLMCustomerClub.Code
 
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
-            StoreDatabase.UpdateRow(StoreItem);
+            Manager.StoreDatabase.Update(StoreItem);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -164,7 +164,7 @@ namespace PMLMCustomerClub.Code
 
         public void Page_AcceptNewProduct(object sender, RoutedEventArgs e)
         {
-            StoreDatabase.InsertNewRow(StoreItem);
+            Manager.StoreDatabase.Insert(StoreItem);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -178,7 +178,7 @@ namespace PMLMCustomerClub.Code
         public void Viewer_DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             int id = int.Parse(RowFocused[0].ToString());
-            StoreDatabase.DeleteRow(id);
+            Manager.StoreDatabase.Delete(id);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;

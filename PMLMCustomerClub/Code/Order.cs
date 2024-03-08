@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using PMLMCustomerClub.Database;
 
 namespace PMLMCustomerClub.Code
 {
@@ -81,7 +82,8 @@ namespace PMLMCustomerClub.Code
             order.OrderDate = DateTime.Parse(data[1].ToString());
             int customerID = int.Parse(data[2].ToString());
             Customer customer;
-            CustomerDatabase.TryLookUp(customerID, out customer);
+            CustomerDatabase customerDatabase = new CustomerDatabase();
+            customerDatabase.TryExplore(customerID, out customer);
             order.Customer = customer;
             order.FileName = data[5].ToString();
             order.TotalPrice = int.Parse(data[6].ToString());

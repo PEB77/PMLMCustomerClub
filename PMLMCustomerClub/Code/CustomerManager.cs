@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using PMLMCustomerClub.Database;
 
 namespace PMLMCustomerClub.Code
 {
@@ -127,7 +128,7 @@ namespace PMLMCustomerClub.Code
 
         public void InitNewObject()
         {
-            Customer = new Customer().SetID(CustomerDatabase.GetNextID());
+            Customer = new Customer().SetID(Manager.CustomerDatabase.GetNextID());
             Page = new CustomerPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -150,7 +151,7 @@ namespace PMLMCustomerClub.Code
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
             FileManager.UpdateCustomer(Customer);
-            CustomerDatabase.UpdateRow(Customer);
+            Manager.CustomerDatabase.Update(Customer);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -163,7 +164,7 @@ namespace PMLMCustomerClub.Code
         {
             Customer.CreateFolderName();
             FileManager.SaveCustomer(Customer);
-            CustomerDatabase.InsertNewRow(Customer);
+            Manager.CustomerDatabase.Insert(Customer);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -179,7 +180,7 @@ namespace PMLMCustomerClub.Code
             int id = int.Parse(RowFocused[0].ToString());
             Customer = Customer.GetCustomer(RowFocused);
             FileManager.DeleteCustomerFolder(Customer.FolderName);
-            CustomerDatabase.DeleteRow(id);
+            Manager.CustomerDatabase.Delete(id);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;

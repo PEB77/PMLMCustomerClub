@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PMLMCustomerClub.Database;
 
 namespace PMLMCustomerClub.Code
 {
@@ -27,6 +28,11 @@ namespace PMLMCustomerClub.Code
         internal StoreManager StoreManager;
         internal CustomerManager CustomerManager;
         internal OrderManager OrderManager;
+
+        internal ProductDatabase ProductDatabase = new ProductDatabase();
+        internal StoreDatabase StoreDatabase = new StoreDatabase();
+        internal CustomerDatabase CustomerDatabase = new CustomerDatabase();
+        internal OrderDatabase OrderDatabase = new OrderDatabase();
 
         public delegate void ChangeProductItemSourceEventHandler(object itemSource);
         public delegate void ChangeStoreItemSourceEventHandler(object itemSource);
@@ -73,18 +79,10 @@ namespace PMLMCustomerClub.Code
             Task task = Task.Run(() =>
             {
                 AllDataTables.Clear();
-
-                DataTable productTable = ProductDatabase.GetDataTable();
-                AllDataTables.Add(SelectPart.PRODUCT, productTable);
-
-                DataTable storeTable = StoreDatabase.GetDataTable();
-                AllDataTables.Add(SelectPart.STORE, storeTable);
-
-                DataTable customerTable = CustomerDatabase.GetDataTable();
-                AllDataTables.Add(SelectPart.CUSTOMER, customerTable);
-
-                DataTable orderTable = OrderDatabase.GetDataTable();
-                AllDataTables.Add(SelectPart.ORDER, orderTable);
+                AllDataTables.Add(SelectPart.PRODUCT, ProductDatabase.GetData());
+                AllDataTables.Add(SelectPart.STORE, StoreDatabase.GetData());
+                AllDataTables.Add(SelectPart.CUSTOMER, CustomerDatabase.GetData());
+                AllDataTables.Add(SelectPart.ORDER, OrderDatabase.GetData());
             });
 
             return task;
@@ -96,23 +94,23 @@ namespace PMLMCustomerClub.Code
                 switch (Part)
                 {
                     case SelectPart.CUSTOMER:
-                        AllDataTables[Part] = CustomerDatabase.GetDataTable();
+                        AllDataTables[Part] = CustomerDatabase.GetData();
                         Main.UIDispatcher.BeginInvoke(ChangeCustomerSource, AllDataTables[Part]);
                         break;
                     case SelectPart.ORDER:
-                        AllDataTables[Part] = OrderDatabase.GetDataTable();
-                        AllDataTables[SelectPart.CUSTOMER] = CustomerDatabase.GetDataTable();
-                        AllDataTables[SelectPart.STORE] = StoreDatabase.GetDataTable();
+                        AllDataTables[Part] = OrderDatabase.GetData();
+                        AllDataTables[SelectPart.CUSTOMER] = CustomerDatabase.GetData();
+                        AllDataTables[SelectPart.STORE] = StoreDatabase.GetData();
                         Main.UIDispatcher.BeginInvoke(ChangeOrderSource, AllDataTables[Part]);
                         Main.UIDispatcher.BeginInvoke(ChangeCustomerSource, AllDataTables[SelectPart.CUSTOMER]);
                         Main.UIDispatcher.BeginInvoke(ChangeStoreItemSource, AllDataTables[SelectPart.STORE]);
                         break;
                     case SelectPart.STORE:
-                        AllDataTables[Part] = StoreDatabase.GetDataTable();
+                        AllDataTables[Part] = StoreDatabase.GetData();
                         Main.UIDispatcher.BeginInvoke(ChangeStoreItemSource, AllDataTables[Part]);
                         break;
                     default:
-                        AllDataTables[Part] = ProductDatabase.GetDataTable();
+                        AllDataTables[Part] = ProductDatabase.GetData();
                         Main.UIDispatcher.BeginInvoke(ChangeProductItemSource, AllDataTables[Part]);
                         break;
                 }
@@ -125,9 +123,9 @@ namespace PMLMCustomerClub.Code
             Task loading = LoadDatabases();
             loading.Wait();
 
-            Main.CustomerTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.CUSTOMER];
-            Main.OrderTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.ORDER];
-            Main.StoreTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.STORE];
+            //Main.CustomerTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.CUSTOMER];
+            //Main.OrderTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.ORDER];
+            //Main.StoreTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.STORE];
             Main.ProductTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.PRODUCT];
 
             switch (Part)
@@ -156,7 +154,7 @@ namespace PMLMCustomerClub.Code
             FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
-                StoreDatabase.SaveCsv(folderBrowser.SelectedPath);
+                StoreDatabase.Save(folderBrowser.SelectedPath);
             }
             
         }
