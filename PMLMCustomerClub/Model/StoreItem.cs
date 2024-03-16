@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Model
 {
     [Serializable]
     [DataContract]
@@ -69,8 +69,8 @@ namespace PMLMCustomerClub.Code
             item.StoreID = int.Parse(data[0].ToString());
             item.ProductID = int.Parse(data[1].ToString());
             item.ProductName = data[2].ToString();
-            item.Category = (Categories)Enum.Parse(typeof(Categories), data[3].ToString().Replace(" ", "_"));
-            item.Brand = (Brands)Enum.Parse(typeof(Brands), data[4].ToString().Replace(" ", "_"));
+            item.Category = GetCategory(data[3].ToString());
+            item.Brand = GetBrand(data[4].ToString());
             item.Price = int.Parse(data[5].ToString());
             item.Amount = int.Parse(data[7].ToString());
             item.ExpDate = DateTime.Parse(data[6].ToString());

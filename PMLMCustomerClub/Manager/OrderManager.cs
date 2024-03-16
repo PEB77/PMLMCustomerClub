@@ -11,8 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using PMLMCustomerClub.Database;
+using PMLMCustomerClub.Model;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
     public class OrderManager : IManager
     {

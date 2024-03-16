@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PMLMCustomerClub.Database;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
     public class ProjectManager
     {
@@ -123,9 +123,9 @@ namespace PMLMCustomerClub.Code
             Task loading = LoadDatabases();
             loading.Wait();
 
-            //Main.CustomerTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.CUSTOMER];
-            //Main.OrderTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.ORDER];
-            //Main.StoreTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.STORE];
+            Main.CustomerTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.CUSTOMER];
+            Main.OrderTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.ORDER];
+            Main.StoreTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.STORE];
             Main.ProductTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.PRODUCT];
 
             switch (Part)

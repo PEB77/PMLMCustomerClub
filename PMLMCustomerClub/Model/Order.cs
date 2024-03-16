@@ -7,8 +7,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using PMLMCustomerClub.Database;
+using PMLMCustomerClub.Manager;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Model
 {
     [DataContract]
     public class Order

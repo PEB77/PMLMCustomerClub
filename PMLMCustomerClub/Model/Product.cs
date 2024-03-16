@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Model
 {
     [Serializable]
     [DataContract]
@@ -77,12 +77,23 @@ namespace PMLMCustomerClub.Code
             Product product = new Product();
             product.ProductID = int.Parse(data[0].ToString());
             product.ProductName = data[1].ToString();
-            string[] categoryParts = data[2].ToString().Split(' ');
-            product.Category = (Categories)Enum.Parse(typeof(Categories), categoryParts[0] + "_" + categoryParts[1]);
-            string[] brandParts = data[3].ToString().Split(' ');
-            product.Brand = (Brands)Enum.Parse(typeof(Brands), brandParts[0] + "_" + brandParts[1]);
+            product.Category = GetCategory(data[2].ToString());
+            product.Brand = GetBrand(data[3].ToString());
             product.Price = int.Parse(data[4].ToString());
             return product;
+        }
+
+        public static Categories GetCategory(string row)
+        {
+            string[] parts = row.Split(' ');
+            if (parts[0] == "Empty") return Categories.Empty;
+            return (Categories)Enum.Parse(typeof(Categories), parts[0] + "_" + parts[1]);
+        }
+        public static Brands GetBrand(string row)
+        {
+            string[] parts = row.Split(' ');
+            if (parts[0] == "Empty") return Brands.Empty;
+            return (Brands)Enum.Parse(typeof(Brands), parts[0] + "_" + parts[1]);
         }
 
     }

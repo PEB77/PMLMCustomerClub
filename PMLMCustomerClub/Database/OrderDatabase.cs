@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PMLMCustomerClub.Code;
+using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Database
 {
@@ -28,15 +28,15 @@ namespace PMLMCustomerClub.Database
 
         public override DataTable GetData()
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
-                    string quary = "SELECT * FROM Order";
-                    SqlCommand commad = new SqlCommand(quary, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(commad);
-                    DataTable dataTable = new DataTable("orders_list");
+                    string quary = "SELECT * FROM OrderList";
+                    SQLiteCommand command = new SQLiteCommand(quary, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                    DataTable dataTable = new DataTable("Order");
                     adapter.Fill(dataTable);
                     con.Close();
                     return dataTable;
@@ -50,7 +50,7 @@ namespace PMLMCustomerClub.Database
 
         public override void Insert(Order item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -60,7 +60,7 @@ namespace PMLMCustomerClub.Database
                         CustomerDatabase.UpdateCredit(item.Customer.ReferralCode, item.TotalPrice);
                     if (item.UseCredit)
                         CustomerDatabase.UpdateCredit(item.Customer.ID, item.CreditUsed * ForReachingSameResult, false);
-                    string quary = "INSERT INTO Order (OrderID, OrderDate, CustomerID, CustomerFirstName, CustomerLastName, OrderPrice, FileName) VALUES ";
+                    string quary = "INSERT INTO OrderList (OrderID, OrderDate, CustomerID, CustomerFirstName, CustomerLastName, OrderPrice, FileName) VALUES ";
                     string value0 = item.ID.ToString();
                     string value1 = ConvertDateTime(item.OrderDate);
                     string value2 = item.Customer.ID.ToString();
@@ -69,7 +69,7 @@ namespace PMLMCustomerClub.Database
                     string value6 = item.FileName;
                     string value5 = item.TotalPrice.ToString();
                     quary += $"('{value0}', '{value1}', '{value2}', '{value3}', '{value4}', '{value5}', '{value6}');";
-                    using (SqlCommand command = new SqlCommand(quary, con))
+                    using (SQLiteCommand command = new SQLiteCommand(quary, con))
                         command.ExecuteNonQuery();
                     con.Close();
                 }
@@ -82,7 +82,7 @@ namespace PMLMCustomerClub.Database
 
         public override void Update(Order item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -92,7 +92,7 @@ namespace PMLMCustomerClub.Database
                         CustomerDatabase.UpdateCredit(item.Customer.ReferralCode, item.TotalPrice);
                     if (item.UseCredit)
                         CustomerDatabase.UpdateCredit(item.Customer.ID, item.CreditUsed * ForReachingSameResult, false);
-                    string quary = "UPDATE Order SET Order = @value0, CustomerID = @value1, CustomerFirstName = @value2, CustomerLastName = @value3, OrderPrice = @value5, FileName = @value4 WHERE OrderID = @id ";
+                    string quary = "UPDATE OrderList SET Order = @value0, CustomerID = @value1, CustomerFirstName = @value2, CustomerLastName = @value3, OrderPrice = @value5, FileName = @value4 WHERE OrderID = @id ";
                     string value0 = ConvertDateTime(item.OrderDate);
                     string value1 = item.Customer.ID.ToString();
                     string value2 = item.Customer.FirstName;
@@ -100,7 +100,7 @@ namespace PMLMCustomerClub.Database
                     string value5 = item.FileName;
                     string value4 = item.TotalPrice.ToString();
                     string id = item.ID.ToString();
-                    using (SqlCommand command = new SqlCommand(quary, con))
+                    using (SQLiteCommand command = new SQLiteCommand(quary, con))
                     {
                         command.Parameters.AddWithValue("@value0", value0);
                         command.Parameters.AddWithValue("@value1", value1);
@@ -122,13 +122,13 @@ namespace PMLMCustomerClub.Database
 
         public override void Delete(int ID)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
-                    string quary = "DELETE FROM Order WHERE OrderID = @id";
+                    string quary = "DELETE FROM OrderList WHERE OrderID = @id";
                     con.Open();
-                    using (SqlCommand command = new SqlCommand(quary, con))
+                    using (SQLiteCommand command = new SQLiteCommand(quary, con))
                     {
                         command.Parameters.AddWithValue("@id", ID);
                         command.ExecuteNonQuery();
@@ -159,12 +159,5 @@ namespace PMLMCustomerClub.Database
             throw new NotImplementedException();
         }
 
-        public override int GetNextID()
-        {
-            DataTable dataTable = GetData();
-            DataRow row = dataTable.Rows[dataTable.Rows.Count - 1];
-            int nextID = int.Parse(row[0].ToString()) + 1;
-            return nextID;
-        }
     }
 }

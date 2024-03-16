@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PMLMCustomerClub.Model;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
     public static class FileManager
     {

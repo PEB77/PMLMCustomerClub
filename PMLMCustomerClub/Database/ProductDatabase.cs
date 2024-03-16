@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DevExpress.Utils.About;
 using MySql.Data.MySqlClient;
-using PMLMCustomerClub.Code;
+using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Database
 {
@@ -18,22 +18,22 @@ namespace PMLMCustomerClub.Database
         
         public override DataTable GetData()
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
                     string query = "SELECT * FROM Product";
-                    SqlCommand command = new SqlCommand(query, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    SQLiteCommand command = new SQLiteCommand(query, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("Product");
                     adapter.Fill(dataTable);
                     con.Close();
                     return dataTable;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
             
@@ -41,7 +41,7 @@ namespace PMLMCustomerClub.Database
 
         public override void Insert(Product info)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -53,20 +53,23 @@ namespace PMLMCustomerClub.Database
                     string value4 = info.Brand.ToString().Replace("_", " ");
                     string value5 = info.Price.ToString();
                     query += $"('{value1}', '{value2}', '{value3}', '{value4}', '{value5}');";
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
+                    {
+                        command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
+                    }
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception("Can't insert the new data");
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
         public override void Update(Product info)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -77,7 +80,7 @@ namespace PMLMCustomerClub.Database
                     string value3 = info.Category.ToString().Replace("_", " ");
                     string value4 = info.Brand.ToString().Replace("_", " ");
                     string value5 = info.Price.ToString();
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
                     {
                         command.Parameters.AddWithValue("@value1", value2);
                         command.Parameters.AddWithValue("@value2", value3);
@@ -88,31 +91,31 @@ namespace PMLMCustomerClub.Database
                     }
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception("Can't update table");
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
         public override void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
                     string query = "DELETE FROM Product WHERE ProductID = @id";
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
                     {
                         command.Parameters.AddWithValue("@id", id);
                         command.ExecuteNonQuery();
                     }
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception("Can't delete the data");
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -127,17 +130,6 @@ namespace PMLMCustomerClub.Database
             throw new NotImplementedException();
         }
 
-        public override int GetNextID()
-        {
-            DataTable dataTable = GetData();
-            int nextID = 1;
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[dataTable.Rows.Count - 1];
-                nextID = int.Parse(row[0].ToString()) + 1;
-            }
-            return nextID;
-        }
 
     }
 }

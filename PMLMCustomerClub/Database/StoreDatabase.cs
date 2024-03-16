@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using PMLMCustomerClub.View;
 using System.IO;
-using PMLMCustomerClub.Code;
-using System.Data.SqlClient;
+using PMLMCustomerClub.Model;
+using System.Data.SQLite;
 using DevExpress.Printing.Utils.DocumentStoring;
 using System.Xml.Linq;
 using ZstdSharp;
@@ -62,29 +62,29 @@ namespace PMLMCustomerClub.Database
 
         public override DataTable GetData()
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
-                    string query = "SELECT * FROM pmlm_customer_club.store";
-                    SqlCommand command = new SqlCommand(query, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    string query = "SELECT * FROM Store";
+                    SQLiteCommand command = new SQLiteCommand(query, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("store");
                     adapter.Fill(dataTable);
                     con.Close();
                     return dataTable;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
         public override void Insert(StoreItem item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -100,20 +100,20 @@ namespace PMLMCustomerClub.Database
                         " " + item.ExpDate.Hour.ToString() + ":" + item.ExpDate.Minute.ToString() + ":" + item.ExpDate.Second.ToString();
                     string value7 = item.Amount.ToString();
                     query += $"('{value0}', '{value1}', '{value2}', '{value3}', '{value4}', '{value5}', '{value6}', '{value7}');";
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
                         command.ExecuteNonQuery();
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
         public override void Update(StoreItem item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -129,7 +129,7 @@ namespace PMLMCustomerClub.Database
                         " " + item.ExpDate.Hour.ToString() + ":" + item.ExpDate.Minute.ToString() + ":" + item.ExpDate.Second.ToString();
                     string value7 = item.Amount.ToString();
 
-                    using (SqlCommand command = new SqlCommand(updateSql, con))
+                    using (SQLiteCommand command = new SQLiteCommand(updateSql, con))
                     {
                         command.Parameters.AddWithValue("@value0", value1);
                         command.Parameters.AddWithValue("@value1", value2);
@@ -142,9 +142,9 @@ namespace PMLMCustomerClub.Database
                         command.ExecuteNonQuery();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -163,101 +163,122 @@ namespace PMLMCustomerClub.Database
 
         public override void Delete(int ID)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
-                con.Open();
-                string deleteSql = "DELETE FROM Store WHERE StoreID = @id";
-                using (SqlCommand command = new SqlCommand(deleteSql, con))
+                try
                 {
-                    command.Parameters.AddWithValue("@id", ID);
-                    command.ExecuteNonQuery();
+                    con.Open();
+                    string deleteSql = "DELETE FROM Store WHERE StoreID = @id";
+                    using (SQLiteCommand command = new SQLiteCommand(deleteSql, con))
+                    {
+                        command.Parameters.AddWithValue("@id", ID);
+                        command.ExecuteNonQuery();
+                    }
+                    con.Close();
                 }
-                con.Close();
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
         }
 
         public override StoreItem Explore(int storeID)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
-                con.Open();
-                string query = $"SELECT * FROM Store WHERE StoreID = {storeID}";
-                SqlCommand command = new SqlCommand(query, con);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dataTable = new DataTable("store");
-                adapter.Fill(dataTable);
-                con.Close();
-                StoreItem product = new StoreItem();
-                if (dataTable.Rows.Count != 0)
+                try
                 {
-                    DataRow dataRow = dataTable.Rows[0];
-                    int id = int.Parse(dataRow[0].ToString());
-                    int productID = int.Parse(dataRow[1].ToString());
-                    string name = dataRow[2].ToString();
-                    Product.Categories category = (Product.Categories)Enum.Parse(typeof(Product.Categories), dataRow[3].ToString().Replace(" ", "_"));
-                    Product.Brands brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), dataRow[4].ToString().Replace(" ", "_"));
-                    int price = int.Parse(dataRow[5].ToString());
-                    DateTime expDate = (DateTime)dataRow[6];
-                    int amount = int.Parse(dataRow[7].ToString());
-                    product = new StoreItem()
-                        .SetStoreID(id)
-                        .SetProductData(productID, name, category, brand, price)
-                        .SetOtherDetaild(expDate, amount);
+                    con.Open();
+                    string query = $"SELECT * FROM Store WHERE StoreID = {storeID}";
+                    SQLiteCommand command = new SQLiteCommand(query, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                    DataTable dataTable = new DataTable("store");
+                    adapter.Fill(dataTable);
+                    con.Close();
+                    StoreItem product = new StoreItem();
+                    if (dataTable.Rows.Count != 0)
+                    {
+                        DataRow dataRow = dataTable.Rows[0];
+                        int id = int.Parse(dataRow[0].ToString());
+                        int productID = int.Parse(dataRow[1].ToString());
+                        string name = dataRow[2].ToString();
+                        Product.Categories category = (Product.Categories)Enum.Parse(typeof(Product.Categories), dataRow[3].ToString().Replace(" ", "_"));
+                        Product.Brands brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), dataRow[4].ToString().Replace(" ", "_"));
+                        int price = int.Parse(dataRow[5].ToString());
+                        DateTime expDate = (DateTime)dataRow[6];
+                        int amount = int.Parse(dataRow[7].ToString());
+                        product = new StoreItem()
+                            .SetStoreID(id)
+                            .SetProductData(productID, name, category, brand, price)
+                            .SetOtherDetaild(expDate, amount);
+                    }
+                    return product;
                 }
-                return product;
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
         }
         public DataTable Explore(string name)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
                     string query = $"SELECT * FROM Store WHERE ProductName = '{name}';";
-                    SqlCommand command = new SqlCommand(query, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    SQLiteCommand command = new SQLiteCommand(query, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("store");
                     adapter.Fill(dataTable);
                     con.Close();
                     return dataTable;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
         public StoreItem Explore(StoreItem product)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
-                con.Open();
-                string dateTimeString = ConvertDateTime(product.ExpDate);
-                string quary = $"SELECT * FROM pmlm_customer_club.store WHERE product_id = '{product.ProductID}' AND product_expdate = '{dateTimeString}'; ";
-                SqlCommand command = new SqlCommand(quary, con);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dataTable = new DataTable("store");
-                adapter.Fill(dataTable);
-                con.Close();
-                StoreItem newProduct = new StoreItem();
-                if (dataTable.Rows.Count != 0)
+                try
                 {
-                    DataRow dataRow = dataTable.Rows[0];
-                    int id = int.Parse(dataRow[0].ToString());
-                    int productID = int.Parse(dataRow[1].ToString());
-                    string name = dataRow[2].ToString();
-                    Product.Categories category = (Product.Categories)Enum.Parse(typeof(Product.Categories), dataRow[3].ToString().Replace(" ", "_"));
-                    Product.Brands brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), dataRow[4].ToString().Replace(" ", "_"));
-                    int price = int.Parse(dataRow[5].ToString());
-                    DateTime expDate = (DateTime)dataRow[6];
-                    int amount = int.Parse(dataRow[7].ToString());
-                    newProduct = new StoreItem()
-                        .SetStoreID(id)
-                        .SetProductData(productID, name, category, brand, price)
-                        .SetOtherDetaild(expDate, amount);
+                    con.Open();
+                    string dateTimeString = ConvertDateTime(product.ExpDate);
+                    string quary = $"SELECT * FROM pmlm_customer_club.store WHERE product_id = '{product.ProductID}' AND product_expdate = '{dateTimeString}'; ";
+                    SQLiteCommand command = new SQLiteCommand(quary, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                    DataTable dataTable = new DataTable("store");
+                    adapter.Fill(dataTable);
+                    con.Close();
+                    StoreItem newProduct = new StoreItem();
+                    if (dataTable.Rows.Count != 0)
+                    {
+                        DataRow dataRow = dataTable.Rows[0];
+                        int id = int.Parse(dataRow[0].ToString());
+                        int productID = int.Parse(dataRow[1].ToString());
+                        string name = dataRow[2].ToString();
+                        Product.Categories category = (Product.Categories)Enum.Parse(typeof(Product.Categories), dataRow[3].ToString().Replace(" ", "_"));
+                        Product.Brands brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), dataRow[4].ToString().Replace(" ", "_"));
+                        int price = int.Parse(dataRow[5].ToString());
+                        DateTime expDate = (DateTime)dataRow[6];
+                        int amount = int.Parse(dataRow[7].ToString());
+                        newProduct = new StoreItem()
+                            .SetStoreID(id)
+                            .SetProductData(productID, name, category, brand, price)
+                            .SetOtherDetaild(expDate, amount);
+                    }
+                    return newProduct;
                 }
-                return newProduct;
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
         }
 
@@ -267,37 +288,35 @@ namespace PMLMCustomerClub.Database
         }
         public bool TryExplore(string name, out List<StoreItem> items)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
-                con.Open();
-                items = new List<StoreItem>();
-                bool findCustomerProfile = false;
-                string quary = $"SELECT * FROM Store WHERE ProductName = '{name}'";
-                SqlCommand command = new SqlCommand(quary, con);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable table = new DataTable("customer_list");
-                adapter.Fill(table);
-                con.Close();
-                if (table.Rows.Count > 0)
+                try
                 {
-                    for (int i = 0; i < table.Rows.Count; i++)
+                    con.Open();
+                    items = new List<StoreItem>();
+                    bool findCustomerProfile = false;
+                    string quary = $"SELECT * FROM Store WHERE ProductName = '{name}'";
+                    SQLiteCommand command = new SQLiteCommand(quary, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                    DataTable table = new DataTable("customer_list");
+                    adapter.Fill(table);
+                    con.Close();
+                    if (table.Rows.Count > 0)
                     {
-                        DataRow row = table.Rows[i];
-                        items.Add(StoreItem.GetStoreItem(row));
+                        for (int i = 0; i < table.Rows.Count; i++)
+                        {
+                            DataRow row = table.Rows[i];
+                            items.Add(StoreItem.GetStoreItem(row));
+                        }
+                        return findCustomerProfile = true;
                     }
-                    return findCustomerProfile = true;
+                    return findCustomerProfile = false;
                 }
-                return findCustomerProfile = false;
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
-        }
-
-        public override int GetNextID()
-        {
-            DataTable dataTable = GetData();
-            if (dataTable.Rows.Count == 0) return 1;
-            DataRow row = dataTable.Rows[dataTable.Rows.Count - 1];
-            int nextID = int.Parse(row[0].ToString()) + 1;
-            return nextID;
         }
 
         internal void Cancel(List<StoreItem> products)

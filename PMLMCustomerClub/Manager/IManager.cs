@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
     public interface IManager
     {

@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMLMCustomerClub.Database;
+using PMLMCustomerClub.Model;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
 
     public class ProductManager : IManager

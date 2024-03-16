@@ -9,8 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using PMLMCustomerClub.Model;
 
-namespace PMLMCustomerClub.Code
+namespace PMLMCustomerClub.Manager
 {
     public class StoreManager : IManager
     {
@@ -69,11 +70,11 @@ namespace PMLMCustomerClub.Code
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
-                string name = row["product_name"].ToString();
-                StoreItem.Categories category = (StoreItem.Categories)Enum.Parse(typeof(StoreItem.Categories), row["product_category"].ToString().Replace(" ", "_"));
-                StoreItem.Brands brands = (StoreItem.Brands)Enum.Parse(typeof(StoreItem.Brands), row["product_brand"].ToString().Replace(" ", "_"));
-                int price = int.Parse(row["product_price"].ToString());
-                int id = int.Parse(row["product_id"].ToString());
+                string name = row["ProductName"].ToString();
+                StoreItem.Categories category = StoreItem.GetCategory(row["Category"].ToString());
+                StoreItem.Brands brands = StoreItem.GetBrand(row["Brand"].ToString());
+                int price = int.Parse(row["Price"].ToString());
+                int id = int.Parse(row["ProductID"].ToString());
                 NameCategories.Add(name, category);
                 NameBrands.Add(name, brands);
                 NamePrice.Add(name, price);

@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using PMLMCustomerClub.View;
-using PMLMCustomerClub.Code;
-using System.Data.SqlClient;
+using PMLMCustomerClub.Model;
+using System.Data.SQLite;
 
 namespace PMLMCustomerClub.Database
 {
@@ -16,14 +16,14 @@ namespace PMLMCustomerClub.Database
         
         public override DataTable GetData()
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
-                    string query = "SELECT * Customer";
-                    SqlCommand command = new SqlCommand(query, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    string query = "SELECT * FROM Customer";
+                    SQLiteCommand command = new SQLiteCommand(query, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("customer_list");
                     adapter.Fill(dataTable);
                     con.Close();
@@ -38,7 +38,7 @@ namespace PMLMCustomerClub.Database
 
         public override void Insert(Customer item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -55,7 +55,7 @@ namespace PMLMCustomerClub.Database
                     string value8 = item.FolderName;
                     query += $"('{value0}', '{value1}', '{value2}', '{value3}', '{value4}', '{value5}', '{value6}', '{value7}', '{value8}');"; // Add values to the SQL statement
                     con.Open();
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
                         command.ExecuteNonQuery();
                     con.Close();
                 }
@@ -68,7 +68,7 @@ namespace PMLMCustomerClub.Database
 
         public override void Update(Customer item)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -84,7 +84,7 @@ namespace PMLMCustomerClub.Database
                     string value6 = item.Address.ToString();
                     string value7 = item.FolderName;
                     string id = item.ID.ToString();
-                    using (SqlCommand command = new SqlCommand(quary, con))
+                    using (SQLiteCommand command = new SQLiteCommand(quary, con))
                     {
                         command.Parameters.AddWithValue("@value0", value0);
                         command.Parameters.AddWithValue("@value1", value1);
@@ -108,13 +108,13 @@ namespace PMLMCustomerClub.Database
 
         public override void Delete(int ID)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
                     con.Open();
                     string quary = "DELETE FROM Customer WHERE CustomerID = @id";
-                    using (SqlCommand command = new SqlCommand(quary, con))
+                    using (SQLiteCommand command = new SQLiteCommand(quary, con))
                     {
                         command.Parameters.AddWithValue("@id", ID);
                         command.ExecuteNonQuery();
@@ -135,7 +135,7 @@ namespace PMLMCustomerClub.Database
 
         public override bool TryExplore(int ID, out Customer result)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -143,8 +143,8 @@ namespace PMLMCustomerClub.Database
                     bool findCustomerProfile = false;
                     con.Open();
                     string quary = $"SELECT * FROM Customer WHERE CustomerID = {ID}";
-                    SqlCommand command = new SqlCommand(quary, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    SQLiteCommand command = new SQLiteCommand(quary, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("customer_list");
                     adapter.Fill(dataTable);
                     con.Close();
@@ -164,7 +164,7 @@ namespace PMLMCustomerClub.Database
         }
         public bool TryExplore(string firstName, string lastName, out Customer customer)
         {
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SQLiteConnection con = new SQLiteConnection(ConnectionString))
             {
                 try
                 {
@@ -172,8 +172,8 @@ namespace PMLMCustomerClub.Database
                     bool findCustomerProfile = false;
                     con.Open();
                     string quary = $"SELECT * FROM Customer WHERE FirstName = '{firstName}' AND LastName = '{lastName}'";
-                    SqlCommand command = new SqlCommand(quary, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    SQLiteCommand command = new SQLiteCommand(quary, con);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("customer_list");
                     adapter.Fill(dataTable);
                     con.Close();
@@ -190,14 +190,6 @@ namespace PMLMCustomerClub.Database
                     throw new Exception();
                 }
             }
-        }
-
-        public override int GetNextID()
-        {
-            DataTable dataTable = GetData();
-            DataRow row = dataTable.Rows[dataTable.Rows.Count - 1];
-            int nextID = int.Parse(row[0].ToString()) + 1;
-            return nextID;
         }
 
         internal void UpdateCredit(int customerID, int orderPrice, bool isIncrese = true)
