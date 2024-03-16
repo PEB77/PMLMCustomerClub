@@ -29,9 +29,9 @@ namespace PMLMCustomerClub.Database
                     con.Close();
                     return dataTable;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -59,9 +59,9 @@ namespace PMLMCustomerClub.Database
                         command.ExecuteNonQuery();
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -99,9 +99,9 @@ namespace PMLMCustomerClub.Database
                     }
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -121,9 +121,9 @@ namespace PMLMCustomerClub.Database
                     }
                     con.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -156,9 +156,9 @@ namespace PMLMCustomerClub.Database
                     }
                     return findCustomerProfile = false;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -185,9 +185,9 @@ namespace PMLMCustomerClub.Database
                     }
                     return findCustomerProfile = false;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception();
+                    throw new Exception(ex.Message);
                 }
             }
         }

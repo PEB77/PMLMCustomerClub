@@ -86,8 +86,8 @@ namespace PMLMCustomerClub.Model
             CustomerDatabase customerDatabase = new CustomerDatabase();
             customerDatabase.TryExplore(customerID, out customer);
             order.Customer = customer;
-            order.FileName = data[5].ToString();
-            order.TotalPrice = int.Parse(data[6].ToString());
+            order.TotalPrice = int.Parse(data[5].ToString());
+            order.FileName = data[6].ToString();
             order.Products = FileManager.LoadProducts(order);
             order.FinalBill();
             return order;

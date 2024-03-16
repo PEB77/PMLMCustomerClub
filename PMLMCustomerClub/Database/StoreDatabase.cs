@@ -118,7 +118,7 @@ namespace PMLMCustomerClub.Database
                 try
                 {
                     con.Open();
-                    string updateSql = "UPDATE store SET ProductID = @value0, ProductName = @value1, Category = @value2, Brand = @value3, Price = @value4, ExpDate = @value5, Stock = @value6 WHERE StoreID = @id";
+                    string updateSql = "UPDATE Store SET ProductID = @value0, ProductName = @value1, Category = @value2, Brand = @value3, Price = @value4, ExpDate = @value5, Stock = @value6 WHERE StoreID = @id";
                     string value0 = item.StoreID.ToString();
                     string value1 = item.ProductID.ToString();
                     string value2 = item.ProductName;
@@ -206,7 +206,7 @@ namespace PMLMCustomerClub.Database
                         Product.Categories category = (Product.Categories)Enum.Parse(typeof(Product.Categories), dataRow[3].ToString().Replace(" ", "_"));
                         Product.Brands brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), dataRow[4].ToString().Replace(" ", "_"));
                         int price = int.Parse(dataRow[5].ToString());
-                        DateTime expDate = (DateTime)dataRow[6];
+                        DateTime expDate = Convert.ToDateTime(dataRow[6].ToString());
                         int amount = int.Parse(dataRow[7].ToString());
                         product = new StoreItem()
                             .SetStoreID(id)
@@ -250,7 +250,7 @@ namespace PMLMCustomerClub.Database
                 {
                     con.Open();
                     string dateTimeString = ConvertDateTime(product.ExpDate);
-                    string quary = $"SELECT * FROM pmlm_customer_club.store WHERE product_id = '{product.ProductID}' AND product_expdate = '{dateTimeString}'; ";
+                    string quary = $"SELECT * FROM Store WHERE product_id = '{product.ProductID}' AND product_expdate = '{dateTimeString}'; ";
                     SQLiteCommand command = new SQLiteCommand(quary, con);
                     SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     DataTable dataTable = new DataTable("store");
