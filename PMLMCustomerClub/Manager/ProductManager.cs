@@ -13,7 +13,7 @@ using PMLMCustomerClub.Model;
 namespace PMLMCustomerClub.Manager
 {
 
-    public class ProductManager : IManager
+    public class ProductManager : IManager<ProductPage, Product>
     {
 
         public ProductManager(ProjectManager manager, TableViewer viewer)
@@ -31,8 +31,8 @@ namespace PMLMCustomerClub.Manager
 
         public ProjectManager Manager { get; set; }
         public TableViewer Viewer { get; set; }
-        internal ProductPage Page;
-        public Product Product;
+        public ProductPage Page { get; set; }
+        public Product Item { get; set; }
         public DataRow RowFocused { get; set; }
 
         private const int NameLimitChars = 60;
@@ -72,7 +72,7 @@ namespace PMLMCustomerClub.Manager
 
         public void InitObject()
         {
-            Product = Product.GetProduct(RowFocused);
+            Item = Product.GetProduct(RowFocused);
             Page = new ProductPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -80,8 +80,8 @@ namespace PMLMCustomerClub.Manager
 
         public void InitNewObject()
         {
-            Product = new Product();
-            Product.ProductID = Manager.ProductDatabase.GetNextID();
+            Item = new Product();
+            Item.ProductID = Manager.ProductDatabase.GetNextID();
             Page = new ProductPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -113,7 +113,7 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptEditedProduct(object sender, System.Windows.RoutedEventArgs e)
         {
-            Manager.ProductDatabase.Update(Product);
+            Manager.ProductDatabase.Update(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -124,7 +124,7 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptNewProduct(object sender, System.Windows.RoutedEventArgs e)
         {
-            Manager.ProductDatabase.Insert(Product);
+            Manager.ProductDatabase.Insert(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -132,7 +132,7 @@ namespace PMLMCustomerClub.Manager
 
         public void AcceptValidation()
         {
-            if (Product.Validation())
+            if (Item.Validation())
                 Page.AcceptButton.IsEnabled = true;
             else
                 Page.AcceptButton.IsEnabled = false;
@@ -140,21 +140,21 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_PriceChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Product.Price = int.Parse(Page.PriceBox.Text);
+            Item.Price = int.Parse(Page.PriceBox.Text);
             AcceptValidation();
         }
 
         private void Page_BrandChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             string brandText = Page.BrandComboBox.SelectedItem as string;
-            Product.Brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), brandText.Replace(" ", "_"));
+            Item.Brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), brandText.Replace(" ", "_"));
             AcceptValidation();
         }
 
         private void Page_CategoryChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             string categoryText = Page.CategoryComboBox.SelectedItem as string;
-            Product.Category = (Product.Categories)Enum.Parse(typeof(Product.Categories), categoryText.Replace(" ", "_"));
+            Item.Category = (Product.Categories)Enum.Parse(typeof(Product.Categories), categoryText.Replace(" ", "_"));
             AcceptValidation();
         }
 
@@ -168,21 +168,21 @@ namespace PMLMCustomerClub.Manager
                 Page.NameBox.Text = "";
                 return;
             }
-            Product.ProductName = Page.NameBox.Text;
+            Item.ProductName = Page.NameBox.Text;
             AcceptValidation();
         }
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Product.ProductID.ToString();
-            Page.NameBox.Text = Product.ProductName;
+            Page.IDBox.Text = Item.ProductID.ToString();
+            Page.NameBox.Text = Item.ProductName;
             Page.CategoryComboBox.ItemsSource = SetComboBox(typeof(Product.Categories));
             Page.BrandComboBox.ItemsSource = SetComboBox(typeof(Product.Brands));
-            if (Product.ProductName != null)
+            if (Item.ProductName != null)
             {
-                Page.CategoryComboBox.Text = Product.Category.ToString().Replace("_", " ");
-                Page.BrandComboBox.Text = Product.Brand.ToString().Replace("_", " ");
-                Page.PriceBox.Text = Product.Price.ToString();
+                Page.CategoryComboBox.Text = Item.Category.ToString().Replace("_", " ");
+                Page.BrandComboBox.Text = Item.Brand.ToString().Replace("_", " ");
+                Page.PriceBox.Text = Item.Price.ToString();
             }
 
         }

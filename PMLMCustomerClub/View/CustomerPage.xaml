@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PMLMCustomerClub.View"
       xmlns:local2="clr-namespace:PMLMCustomerClub.CustomControls"
+      xmlns:local3="clr-namespace:PMLMCustomerClub.CustomControls"
       xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
       mc:Ignorable="d" 
       d:DesignHeight="900" d:DesignWidth="450"
@@ -27,24 +28,27 @@
                 <DockPanel DockPanel.Dock="Top"
                            Height="40"
                            Margin="30,50,30,0">
-                    <Label x:Name="IDLabel" 
-                           Height="40" 
-                           Width="100"
-                           Content="ID:" 
-                           FontSize="20" 
-                           DockPanel.Dock="Left"
-                           HorizontalAlignment="Left"
-                           VerticalContentAlignment="Center"
-                       />
+                    <Label x:Name="IDLabel"
+                          Width="140"
+                          Height="40"
+                          Content="ID:" 
+                          FontSize="20"
+                          DockPanel.Dock="Left"
+                          HorizontalAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          />
 
-                    <dxe:TextEdit x:Name="IDBox"
+                    <dxe:TextEdit x:Name="IDTextEdit" 
+                                  Width="150" 
                                   Height="40"
-                                  Width="180"
-                                  FontSize="20"
+                                  FontSize="18"
                                   IsEnabled="False"
                                   DockPanel.Dock="Right"
                                   HorizontalAlignment="Right"
-                                  CornerRadius="10"/>
+                                  CornerRadius="10"
+                                  EditValueChanged="PhoneTextEdit_EditValueChanged"
+                                  />
+
 
                 </DockPanel>
 
@@ -52,8 +56,8 @@
                        Height="40"
                        Margin="30,10,30,0">
 
-                    <Label x:Name="FirstNameLabel" 
-                       Width="120" 
+                    <Label x:Name="FirstNameLabel"
+                       Width="140"
                        Height="40"
                        Content="First Name:" 
                        FontSize="20"
@@ -62,61 +66,8 @@
                        VerticalContentAlignment="Center"
                        />
 
-                <dxe:TextEdit x:Name="FirstNameTextEdit" 
+                    <dxe:TextEdit x:Name="FirstNameTextEdit" 
                               Width="150" 
-                              Height="40" 
-                              FontSize="18" 
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="FirstNameTextEdit_EditValueChanged"
-                              />
-
-            </DockPanel>
-
-            <DockPanel DockPanel.Dock="Top"
-                       Height="40"
-                       Margin="30,10,30,0">
-
-                <Label x:Name="LastNameLabel" 
-                       Width="120" 
-                       Height="40"
-                       Content="Last Name:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                <dxe:TextEdit x:Name="LastNameTextEdit"
-                              Width="150"
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="LastNameTextEdit_EditValueChanged"
-                              />
-
-            </DockPanel>
-
-            <DockPanel DockPanel.Dock="Top"
-                       Height="40"
-                       Margin="30,10,30,0"
-                       >
-
-                <Label x:Name="Phone"
-                       Width="120"
-                       Height="40" 
-                       Content="Cell Phone:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                <dxe:TextEdit x:Name="PhoneTextEdit"
-                              Width="150"
                               Height="40"
                               FontSize="18"
                               DockPanel.Dock="Right"
@@ -125,7 +76,58 @@
                               EditValueChanged="PhoneTextEdit_EditValueChanged"
                               />
 
-            </DockPanel>
+                </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                    <Label x:Name="LastNameLabel"
+                       Width="140"
+                       Height="40"
+                       Content="Last Name::" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                    <dxe:TextEdit x:Name="LastNameTextEdit" 
+                              Width="150" 
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="PhoneTextEdit_EditValueChanged"
+                              />
+
+                </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0"
+                       >
+                    <Label x:Name="PhoneLabel"
+                       Width="140"
+                       Height="40"
+                       Content="Phone:" 
+                       FontSize="20"
+                       DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       />
+
+                    <dxe:TextEdit x:Name="PhoneTextEdit" 
+                              Width="150" 
+                              Height="40"
+                              FontSize="18"
+                              DockPanel.Dock="Right"
+                              HorizontalAlignment="Right"
+                              CornerRadius="10"
+                              EditValueChanged="PhoneTextEdit_EditValueChanged"
+                              />
+                </DockPanel>
 
             <DockPanel DockPanel.Dock="Top"
                        Height="200"

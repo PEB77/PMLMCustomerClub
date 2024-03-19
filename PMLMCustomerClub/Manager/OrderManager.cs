@@ -15,7 +15,7 @@ using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Manager
 {
-    public class OrderManager : IManager
+    public class OrderManager : IManager<OrderPage, Order>
     {
         public OrderManager(ProjectManager manager, TableViewer viewer)
         {
@@ -33,8 +33,8 @@ namespace PMLMCustomerClub.Manager
         public DataRow RowFocused { get; set; }
         public bool IsEditMode { get; set; }
 
-        public Order Order;
-        public OrderPage Page;
+        public Order Item { get; set; }
+        public OrderPage Page { get; set; }
 
         private List<StoreItem> Items;
         private StoreItem NewItem;
@@ -42,9 +42,9 @@ namespace PMLMCustomerClub.Manager
 
         public void AcceptValidation()
         {
-            Order.FinalBill();
-            Page.OrderTotalPriceTextEdit.Text = Order.TotalPrice.ToString();
-            if (Order.Validation())
+            Item.FinalBill();
+            Page.OrderTotalPriceTextEdit.Text = Item.TotalPrice.ToString();
+            if (Item.Validation())
                 Page.AcceptButton.IsEnabled = true;
             else
                 Page.AcceptButton.IsEnabled = false;
@@ -60,11 +60,11 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Order.ID.ToString();
+            Page.IDBox.Text = Item.ID.ToString();
             Page.CustomerNameComboBox.ItemsSource = PrepareCustomerSource(Manager.AllDataTables[ProjectManager.SelectPart.CUSTOMER]);
             Page.ProductNameComboBoxEdit.ItemsSource = PrepareProductSource(Manager.AllDataTables[ProjectManager.SelectPart.PRODUCT]);
-            Page.ProductSelectedGridControl.ItemsSource = Order.Products;
-            if (IsEditMode) Page.CustomerNameComboBox.Text = Order.Customer.FirstName + "-" + Order.Customer.LastName;
+            Page.ProductSelectedGridControl.ItemsSource = Item.Products;
+            if (IsEditMode) Page.CustomerNameComboBox.Text = Item.Customer.FirstName + "-" + Item.Customer.LastName;
         }
 
         private List<string> PrepareCustomerSource(DataTable table)
@@ -111,19 +111,19 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_DescriptionChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            Order.Details = Page.DescriptionTextBox.Text;
+            Item.Details = Page.DescriptionTextBox.Text;
         }
 
         private void Page_CreditChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             int val = int.Parse(e.NewValue.ToString());
-            Order.CreditUsed = val * Order.Customer.Credit / 100;
+            Item.CreditUsed = val * Item.Customer.Credit / 100;
             AcceptValidation();
         }
 
         private void Page_BirthDayGiftChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Order.BirthdayGift = (int)Page.BirthdayGiftAmountTextEdit.Value;
+            Item.BirthdayGift = (int)Page.BirthdayGiftAmountTextEdit.Value;
             AcceptValidation();
         }
 
@@ -135,9 +135,9 @@ namespace PMLMCustomerClub.Manager
             {
                 Page.BirthdayGiftAmountTextEdit.Value = 0;
                 Page.BirthdayGiftAmountTextEdit.IsEnabled = false;
-                Order.BirthdayGift = 0;
+                Item.BirthdayGift = 0;
             }
-            Order.UseBirthdayGift = (bool)Page.UseBirthdayGiftCheckEdit.IsChecked;
+            Item.UseBirthdayGift = (bool)Page.UseBirthdayGiftCheckEdit.IsChecked;
             AcceptValidation();
         }
 
@@ -152,15 +152,15 @@ namespace PMLMCustomerClub.Manager
         {
             
             int indexItem = -1;
-            for(int i = 0; i < Order.Products.Count; i++)
+            for(int i = 0; i < Item.Products.Count; i++)
             {
-                if (Order.Products[i].Equals(ItemFocused))
+                if (Item.Products[i].Equals(ItemFocused))
                     indexItem = i;
             }
             if (indexItem != -1)
             {
-                Order.Products.RemoveAt(indexItem);
-                Page.ProductSelectedGridControl.ItemsSource = Order.Products;
+                Item.Products.RemoveAt(indexItem);
+                Page.ProductSelectedGridControl.ItemsSource = Item.Products;
             }
             Page.RemoveProductButton.IsEnabled = false;
             AddValidation();
@@ -169,17 +169,17 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_AddItemButtonClick(object sender, RoutedEventArgs e)
         {
-            for(int i = 0; i < Order.Products.Count; i++)
+            for(int i = 0; i < Item.Products.Count; i++)
             {
-                if (Order.Products[i].Equals(NewItem))
+                if (Item.Products[i].Equals(NewItem))
                 {
-                    Order.Products[i].Amount += NewItem.Amount;
+                    Item.Products[i].Amount += NewItem.Amount;
                     NewItem = new StoreItem();
                     AddValidation();
                     return;
                 }
             }
-            Order.Products.Add((StoreItem)NewItem.Clone());
+            Item.Products.Add((StoreItem)NewItem.Clone());
             NewItem = new StoreItem();
             AddValidation();
             ResetStoreItemPart();
@@ -193,7 +193,7 @@ namespace PMLMCustomerClub.Manager
             Page.ProductInStoreDateExpComboBoxEdit.IsEnabled = false;
             Page.ProductAmountSpinEdit.Value = 0;
             Page.ProductAmountSpinEdit.IsEnabled = false;
-            Page.ProductSelectedGridControl.ItemsSource = Order.Products;
+            Page.ProductSelectedGridControl.ItemsSource = Item.Products;
         }
 
         private void Page_AmountItemChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
@@ -263,7 +263,7 @@ namespace PMLMCustomerClub.Manager
             string[] namesParts = rawInput.Split('-');
             if (Manager.CustomerDatabase.TryExplore(namesParts[0], namesParts[1], out customer))
             {
-                Order.Customer = customer;
+                Item.Customer = customer;
                 CheckDiscounts();
                 AcceptValidation();
             }
@@ -271,23 +271,23 @@ namespace PMLMCustomerClub.Manager
 
         private void CheckDiscounts()
         {
-            if (Order.Customer.Credit != 0)
+            if (Item.Customer.Credit != 0)
             {
-                Page.CustomerCreditTextBlock.Text = Order.Customer.Credit.ToString();
+                Page.CustomerCreditTextBlock.Text = Item.Customer.Credit.ToString();
                 Page.UseCreditSpinEdit.IsEnabled = true;
             }
             PersianCalendar pCalendar = new PersianCalendar();
-            if (pCalendar.GetMonth(Order.Customer.BirthDay) == pCalendar.GetMonth(DateTime.Now))
+            if (pCalendar.GetMonth(Item.Customer.BirthDay) == pCalendar.GetMonth(DateTime.Now))
             {
                 Page.UseBirthdayGiftCheckEdit.IsEnabled = true;
             }
-            Page.CustomerReferralCodeTextBlock.Text = Order.Customer.ReferralCode.ToString();
-            Page.CustomerBirthDayTextBlock.Text = $"{pCalendar.GetYear(Order.Customer.BirthDay)}-{pCalendar.GetMonth(Order.Customer.BirthDay)}-{pCalendar.GetDayOfMonth(Order.Customer.BirthDay)}";
+            Page.CustomerReferralCodeTextBlock.Text = Item.Customer.ReferralCode.ToString();
+            Page.CustomerBirthDayTextBlock.Text = $"{pCalendar.GetYear(Item.Customer.BirthDay)}-{pCalendar.GetMonth(Item.Customer.BirthDay)}-{pCalendar.GetDayOfMonth(Item.Customer.BirthDay)}";
         }
 
         public void InitNewObject()
         {
-            Order = new Order().SetID(Manager.OrderDatabase.GetNextID());
+            Item = new Order().SetID(Manager.OrderDatabase.GetNextID());
             Page = new OrderPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -295,7 +295,7 @@ namespace PMLMCustomerClub.Manager
 
         public void InitObject()
         {
-            Order = Order.GetOrder(RowFocused);
+            Item = Order.GetOrder(RowFocused);
             Page = new OrderPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -309,8 +309,8 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
-            FileManager.UpdateOrder(Order);
-            Manager.OrderDatabase.Update(Order);
+            FileManager.UpdateOrder(Item);
+            Manager.OrderDatabase.Update(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -321,9 +321,9 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptNewProduct(object sender, RoutedEventArgs e)
         {
-            Order.CreateFileName();
-            FileManager.SaveOrder(Order);
-            Manager.OrderDatabase.Insert(Order);
+            Item.CreateFileName();
+            FileManager.SaveOrder(Item);
+            Manager.OrderDatabase.Insert(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -337,9 +337,9 @@ namespace PMLMCustomerClub.Manager
         public void Viewer_DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             int id = int.Parse(RowFocused[0].ToString());
-            Order = Order.GetOrder(RowFocused);
-            FileManager.DeleteOrderFile(Order);
-            Manager.OrderDatabase.Delete(Order);
+            Item = Order.GetOrder(RowFocused);
+            FileManager.DeleteOrderFile(Item);
+            Manager.OrderDatabase.Delete(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;

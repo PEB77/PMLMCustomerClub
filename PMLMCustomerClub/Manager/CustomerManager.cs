@@ -13,7 +13,7 @@ using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Manager
 {
-    public class CustomerManager : IManager
+    public class CustomerManager : IManager<CustomerPage, Customer>
     {
         public CustomerManager(ProjectManager manager, TableViewer viewer)
         {
@@ -30,12 +30,12 @@ namespace PMLMCustomerClub.Manager
         public DataRow RowFocused { get; set; }
         public bool IsEditMode { get; set; }
 
-        public Customer Customer;
-        public CustomerPage Page;
+        public Customer Item { get; set; }
+        public CustomerPage Page { get; set; }
 
         public void AcceptValidation()
         {
-            if (Customer.Validation())
+            if (Item.Validation())
                 Page.AcceptButton.IsEnabled = true;
             else
                 Page.AcceptButton.IsEnabled = false;
@@ -43,16 +43,16 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Customer.ID.ToString();
-            Page.FirstNameTextEdit.Text = Customer.FirstName;
-            Page.LastNameTextEdit.Text = Customer.LastName;
-            Page.PhoneTextEdit.Text = Customer.PhoneNumber;
-            Page.BirthDayCalender.SetDate(Customer.BirthDay);
-            Page.ReferralCodeSpinEdit.Value = Customer.ReferralCode;
-            Page.StateTextEdit.Text = Customer.Address.State;
-            Page.CityTextEdit.Text = Customer.Address.City;
-            Page.LocationTextBox.Text = Customer.Address.Location;
-            Page.ZipCodeTextEdit.Text = Customer.Address.ZipCode;
+            Page.IDTextEdit.Text = Item.ID.ToString();
+            Page.FirstNameTextEdit.Text = Item.FirstName;
+            Page.LastNameTextEdit.Text = Item.LastName;
+            Page.PhoneTextEdit.Text = Item.PhoneNumber;
+            Page.BirthDayCalender.SetDate(Item.BirthDay);
+            Page.ReferralCodeSpinEdit.Value = Item.ReferralCode;
+            Page.StateTextEdit.Text = Item.Address.State;
+            Page.CityTextEdit.Text = Item.Address.City;
+            Page.LocationTextBox.Text = Item.Address.Location;
+            Page.ZipCodeTextEdit.Text = Item.Address.ZipCode;
         }
 
         public void InitEvent()
@@ -75,61 +75,61 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_ZipCodeChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.Address.ZipCode = (string)e.NewValue;
+            Item.Address.ZipCode = (string)e.NewValue;
             AcceptValidation();
         }
 
         private void Page_LocationChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            Customer.Address.Location = Page.LocationTextBox.Text;
+            Item.Address.Location = Page.LocationTextBox.Text;
             AcceptValidation();
         }
 
         private void Page_CityChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.Address.City = (string)e.NewValue;
+            Item.Address.City = (string)e.NewValue;
             AcceptValidation();
         }
 
         private void Page_StateChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.Address.State = (string)e.NewValue;
+            Item.Address.State = (string)e.NewValue;
             AcceptValidation();
         }
 
         private void Page_ReferralCodeChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.ReferralCode = int.Parse(e.NewValue.ToString());
+            Item.ReferralCode = int.Parse(e.NewValue.ToString());
             AcceptValidation();
         }
 
         private void Page_BirthdayChanged(DateTime dateTime)
         {
-            Customer.BirthDay = dateTime;
+            Item.BirthDay = dateTime;
             AcceptValidation();
         }
 
         private void Page_PhoneChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.PhoneNumber = (string)e.NewValue;
+            Item.PhoneNumber = (string)e.NewValue;
             AcceptValidation();
         }
 
         private void Page_LastNameChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.LastName = (string)e.NewValue;
+            Item.LastName = (string)e.NewValue;
             AcceptValidation();
         }
 
         private void Page_FirstNameChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Customer.FirstName = (string)e.NewValue;
+            Item.FirstName = (string)e.NewValue;
             AcceptValidation();
         }
 
         public void InitNewObject()
         {
-            Customer = new Customer().SetID(Manager.CustomerDatabase.GetNextID());
+            Item = new Customer().SetID(Manager.CustomerDatabase.GetNextID());
             Page = new CustomerPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -137,7 +137,7 @@ namespace PMLMCustomerClub.Manager
 
         public void InitObject()
         {
-            Customer = Customer.GetCustomer(RowFocused);
+            Item = Customer.GetCustomer(RowFocused);
             Page = new CustomerPage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -151,8 +151,8 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
-            FileManager.UpdateCustomer(Customer);
-            Manager.CustomerDatabase.Update(Customer);
+            FileManager.UpdateCustomer(Item);
+            Manager.CustomerDatabase.Update(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -163,9 +163,9 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptNewProduct(object sender, RoutedEventArgs e)
         {
-            Customer.CreateFolderName();
-            FileManager.SaveCustomer(Customer);
-            Manager.CustomerDatabase.Insert(Customer);
+            Item.CreateFolderName();
+            FileManager.SaveCustomer(Item);
+            Manager.CustomerDatabase.Insert(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();
@@ -179,8 +179,8 @@ namespace PMLMCustomerClub.Manager
         public void Viewer_DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             int id = int.Parse(RowFocused[0].ToString());
-            Customer = Customer.GetCustomer(RowFocused);
-            FileManager.DeleteCustomerFolder(Customer.FolderName);
+            Item = Customer.GetCustomer(RowFocused);
+            FileManager.DeleteCustomerFolder(Item.FolderName);
             Manager.CustomerDatabase.Delete(id);
             Task task = Manager.LoadDatabase();
             task.Wait();

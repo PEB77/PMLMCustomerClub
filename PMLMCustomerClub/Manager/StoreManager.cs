@@ -13,8 +13,9 @@ using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Manager
 {
-    public class StoreManager : IManager
+    public class StoreManager : IManager<StorePage, StoreItem>
     {
+
         public StoreManager(ProjectManager manager, TableViewer viewer)
         {
             Manager = manager;
@@ -31,8 +32,8 @@ namespace PMLMCustomerClub.Manager
         public DataRow RowFocused { get; set; }
         public bool IsEditMode { get; set; }
 
-        public StoreItem StoreItem;
-        public StorePage Page;
+        public StoreItem Item { get; set; }
+        public StorePage Page { get; set; }
 
         Dictionary<string, StoreItem.Categories> NameCategories;
         Dictionary<string, StoreItem.Brands> NameBrands;
@@ -41,7 +42,7 @@ namespace PMLMCustomerClub.Manager
 
         public void AcceptValidation()
         {
-            if (StoreItem.Validation())
+            if (Item.Validation())
                 Page.AcceptButton.IsEnabled = true;
             else
                 Page.AcceptButton.IsEnabled = false;
@@ -49,14 +50,14 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = StoreItem.StoreID.ToString();
-            Page.ProductNameComboBox.Text = StoreItem.ProductName;
-            Page.ProductCategoryComboBox.Text = StoreItem.Category.ToString().Replace("_", " ");
-            Page.ProductBrandComboBox.Text = StoreItem.Brand.ToString().Replace("_", " ");
-            Page.ProductPriceSpinBox.Text = StoreItem.Price.ToString();
+            Page.IDBox.Text = Item.StoreID.ToString();
+            Page.ProductNameComboBox.Text = Item.ProductName;
+            Page.ProductCategoryComboBox.Text = Item.Category.ToString().Replace("_", " ");
+            Page.ProductBrandComboBox.Text = Item.Brand.ToString().Replace("_", " ");
+            Page.ProductPriceSpinBox.Text = Item.Price.ToString();
             SetNameComboBox();
-            Page.ExpCalender.SetDate(StoreItem.ExpDate);
-            Page.ProductAmountSpinBox.Value = StoreItem.Amount;
+            Page.ExpCalender.SetDate(Item.ExpDate);
+            Page.ProductAmountSpinBox.Value = Item.Amount;
         }
 
         private void SetNameComboBox()
@@ -101,38 +102,38 @@ namespace PMLMCustomerClub.Manager
         private void Page_NameChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             if (Page.ProductNameComboBox.SelectedIndex < 0) return;
-            StoreItem.ProductName = Page.ProductNameComboBox.Text;
-            Page.ProductCategoryComboBox.Text = NameCategories[StoreItem.ProductName].ToString().Replace("_", " ");
-            Page.ProductBrandComboBox.Text = NameBrands[StoreItem.ProductName].ToString().Replace("_", " ");
-            Page.ProductPriceSpinBox.Value = NamePrice[StoreItem.ProductName];
-            StoreItem.Category = NameCategories[StoreItem.ProductName];
-            StoreItem.Brand = NameBrands[StoreItem.ProductName];
-            StoreItem.Price = NamePrice[StoreItem.ProductName];
-            StoreItem.ProductID = NameProductID[StoreItem.ProductName];
+            Item.ProductName = Page.ProductNameComboBox.Text;
+            Page.ProductCategoryComboBox.Text = NameCategories[Item.ProductName].ToString().Replace("_", " ");
+            Page.ProductBrandComboBox.Text = NameBrands[Item.ProductName].ToString().Replace("_", " ");
+            Page.ProductPriceSpinBox.Value = NamePrice[Item.ProductName];
+            Item.Category = NameCategories[Item.ProductName];
+            Item.Brand = NameBrands[Item.ProductName];
+            Item.Price = NamePrice[Item.ProductName];
+            Item.ProductID = NameProductID[Item.ProductName];
             AcceptValidation();
         }
 
         private void Page_ExpDateChanged(DateTime dateTime)
         {
-            StoreItem.ExpDate = dateTime;
+            Item.ExpDate = dateTime;
             AcceptValidation();
         }
 
         private void Page_AmountChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            StoreItem.Amount = (int)Page.ProductAmountSpinBox.Value;
+            Item.Amount = (int)Page.ProductAmountSpinBox.Value;
             AcceptValidation();
         }
 
         private void Page_PriceChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            StoreItem.Price = (int)Page.ProductPriceSpinBox.Value;
+            Item.Price = (int)Page.ProductPriceSpinBox.Value;
             AcceptValidation();
         }
 
         public void InitNewObject()
         {
-            StoreItem = new StoreItem().SetStoreID(Manager.StoreDatabase.GetNextID());
+            Item = new StoreItem().SetStoreID(Manager.StoreDatabase.GetNextID());
             Page = new StorePage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -140,7 +141,7 @@ namespace PMLMCustomerClub.Manager
 
         public void InitObject()
         {
-            StoreItem = StoreItem.GetStoreItem(RowFocused);
+            Item = StoreItem.GetStoreItem(RowFocused);
             Page = new StorePage();
             Viewer.Frame.Content = Page;
             InitPage();
@@ -154,7 +155,7 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptEditedProduct(object sender, RoutedEventArgs e)
         {
-            Manager.StoreDatabase.Update(StoreItem);
+            Manager.StoreDatabase.Update(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             RowFocused = null;
@@ -165,7 +166,7 @@ namespace PMLMCustomerClub.Manager
 
         public void Page_AcceptNewProduct(object sender, RoutedEventArgs e)
         {
-            Manager.StoreDatabase.Insert(StoreItem);
+            Manager.StoreDatabase.Insert(Item);
             Task task = Manager.LoadDatabase();
             task.Wait();
             InitNewObject();

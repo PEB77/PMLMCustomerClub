@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PMLMCustomerClub.Manager
 {
-    public interface IManager
+    public interface IManager<T1, T2>
     {
 
         public ProjectManager Manager { get; set; }
@@ -16,6 +16,9 @@ namespace PMLMCustomerClub.Manager
 
         public DataRow RowFocused { get; set; }
         public bool IsEditMode { get; set; }
+
+        public T1 Page { get; set; }
+        public T2 Item { get; set; }
 
         public void Viewer_TableSelectingRow(object sender, DevExpress.Xpf.Grid.CanSelectRowEventArgs e);
         public void Viewer_DeleteButtonClick(object sender, System.Windows.RoutedEventArgs e);
