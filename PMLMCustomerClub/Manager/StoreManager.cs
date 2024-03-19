@@ -50,14 +50,14 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Item.StoreID.ToString();
+            Page.ID.TextValue = Item.StoreID.ToString();
             Page.ProductNameComboBox.Text = Item.ProductName;
-            Page.ProductCategoryComboBox.Text = Item.Category.ToString().Replace("_", " ");
-            Page.ProductBrandComboBox.Text = Item.Brand.ToString().Replace("_", " ");
-            Page.ProductPriceSpinBox.Text = Item.Price.ToString();
+            Page.Category.Text = Item.Category.ToString().Replace("_", " ");
+            Page.Brand.Text = Item.Brand.ToString().Replace("_", " ");
+            Page.Price.Value = Item.Price;
             SetNameComboBox();
             Page.ExpCalender.SetDate(Item.ExpDate);
-            Page.ProductAmountSpinBox.Value = Item.Amount;
+            Page.Amount.Value = Item.Amount;
         }
 
         private void SetNameComboBox()
@@ -103,9 +103,9 @@ namespace PMLMCustomerClub.Manager
         {
             if (Page.ProductNameComboBox.SelectedIndex < 0) return;
             Item.ProductName = Page.ProductNameComboBox.Text;
-            Page.ProductCategoryComboBox.Text = NameCategories[Item.ProductName].ToString().Replace("_", " ");
-            Page.ProductBrandComboBox.Text = NameBrands[Item.ProductName].ToString().Replace("_", " ");
-            Page.ProductPriceSpinBox.Value = NamePrice[Item.ProductName];
+            Page.Category.Text = NameCategories[Item.ProductName].ToString().Replace("_", " ");
+            Page.Brand.Text = NameBrands[Item.ProductName].ToString().Replace("_", " ");
+            Page.Price.Value = NamePrice[Item.ProductName];
             Item.Category = NameCategories[Item.ProductName];
             Item.Brand = NameBrands[Item.ProductName];
             Item.Price = NamePrice[Item.ProductName];
@@ -121,13 +121,13 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_AmountChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Item.Amount = (int)Page.ProductAmountSpinBox.Value;
+            Item.Amount = (int)Page.Amount.Value;
             AcceptValidation();
         }
 
         private void Page_PriceChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Item.Price = (int)Page.ProductPriceSpinBox.Value;
+            Item.Price = (int)Page.Price.Value;
             AcceptValidation();
         }
 

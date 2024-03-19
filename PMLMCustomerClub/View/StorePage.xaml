@@ -29,24 +29,10 @@
                 <DockPanel DockPanel.Dock="Top"
                            Height="40"
                            Margin="30,50,30,0">
-                    <Label x:Name="IDLabel" 
-                           Height="40" 
-                           Width="100"
-                           Content="ID:" 
-                           FontSize="20" 
-                           DockPanel.Dock="Left"
-                           HorizontalAlignment="Left"
-                           VerticalContentAlignment="Center"
-                       />
-
-                    <dxe:TextEdit x:Name="IDBox"
-                                  Height="40"
-                                  Width="180"
-                                  FontSize="20"
-                                  IsEnabled="False"
-                                  DockPanel.Dock="Right"
-                                  HorizontalAlignment="Right"
-                                  CornerRadius="10"/>
+                    <local2:TextEditor x:Name="ID"
+                                       Title="ID"
+                                       EditorWidth="180"
+                                       EditorEnable="False"/>
 
                 </DockPanel>
 
@@ -79,108 +65,46 @@
             <DockPanel Height="40" 
                        Margin="30,10,30,0"
                        DockPanel.Dock="Top">
-                <Label x:Name="ProductCategoryLabel" 
-                        Height="40" 
-                        Width="100" 
-                        Content="_Category:" 
-                        FontSize="20" 
-                        Target="{Binding ElementName=ProductCategoryComboBox}"
-                        DockPanel.Dock="Left"
-                        HorizontalAlignment="Left"
-                        VerticalContentAlignment="Center"/>
-
-                <dxe:ComboBoxEdit x:Name="ProductCategoryComboBox" 
-                              Width="180"
-                              Height="40" 
-                              FontSize="20" 
-                              ItemsSource="{Binding}"
-                              IsEnabled="False"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                                  CornerRadius="10"/>
-            </DockPanel>
+                    <local2:ComboBoxEditor x:Name="Category"
+                                           Title="Category:"
+                                           EditorEnable="False"
+                                           EditorWidth="180"
+                                           />
+                </DockPanel>
 
             <DockPanel Height="40" 
                        Margin="30,10,30,0"
                        DockPanel.Dock="Top">
-                
-                <Label x:Name="ProductBrandLabel" 
-                       Height="40" 
-                       Width="100" 
-                       Content="_Brand:" 
-                       FontSize="20" 
-                       Target="{Binding ElementName=ProductBrandComboBox}"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"/>
 
-                <dxe:ComboBoxEdit x:Name="ProductBrandComboBox" 
-                                  Width="180" 
-                                  Height="40" 
-                                  FontSize="20" 
-                                  ItemsSource="{Binding}"
-                                  DockPanel.Dock="Right"
-                                  HorizontalAlignment="Right"
-                                  IsEnabled="False"
-                                  CornerRadius="10"/>
+                    <local2:ComboBoxEditor x:Name="Brand"
+                                           Title="Brand:"
+                                           EditorEnable="False"
+                                           EditorWidth="180"
+                                           />
 
-            </DockPanel>
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top"
+                       Height="40"
+                       Margin="30,10,30,0">
+
+                    <local2:SpinEditor x:Name="Price"
+                                       Title="Price:"
+                                       EditorWidth="180"
+                                       Increment="1000"
+                                       EditValueChanged="ProductPriceSpinBox_EditValueChanged"/>
+
+                </DockPanel>
 
             <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0">
+                    <local2:SpinEditor x:Name="Amount"
+                                       Title="Amount:"
+                                       EditorWidth="180"
+                                       EditValueChanged="ProductAmountSpinBox_EditValueChanged"/>
 
-                <Label x:Name="ProductPriceLabel" 
-                       Height="40" 
-                       Width="100" 
-                       Content="_Price:" 
-                       FontSize="20" 
-                       Target="{Binding ElementName=ProductPriceSpinBox}"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"/>
-
-                <dxe:SpinEdit x:Name="ProductPriceSpinBox" 
-                              Width="180" 
-                              Height="40"
-                              Increment="1000" 
-                              FontSize="20" 
-                              MinValue="0"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="ProductPriceSpinBox_EditValueChanged"
-                              />
-
-            </DockPanel>
-
-            <DockPanel DockPanel.Dock="Top"
-                       Height="40"
-                       Margin="30,10,30,0">
-                <Label x:Name="ProductAmountLabel" 
-                       Height="40" 
-                       Width="100" 
-                       Content="_Amount:"
-                       FontSize="20" 
-                       Target="{Binding ElementName=ProductAmountSpinBox}"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"/>
-
-                <dxe:SpinEdit x:Name="ProductAmountSpinBox" 
-                              Width="180" 
-                              Height="40" 
-                              Increment="1" 
-                              FontSize="20" 
-                              MinValue="0" 
-                              Text="0"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="ProductAmountSpinBox_EditValueChanged"
-                              />
-
-            </DockPanel>
+                </DockPanel>
 
             <DockPanel DockPanel.Dock="Top"
                        Height="200"

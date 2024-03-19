@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PMLMCustomerClub.View"
       xmlns:local2="clr-namespace:PMLMCustomerClub.CustomControls"
-      xmlns:local3="clr-namespace:PMLMCustomerClub.CustomControls"
       xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
       mc:Ignorable="d" 
       d:DesignHeight="900" d:DesignWidth="450"
@@ -23,31 +22,14 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
         
-        <DockPanel >
+        <DockPanel>
 
                 <DockPanel DockPanel.Dock="Top"
                            Height="40"
                            Margin="30,50,30,0">
-                    <Label x:Name="IDLabel"
-                          Width="140"
-                          Height="40"
-                          Content="ID:" 
-                          FontSize="20"
-                          DockPanel.Dock="Left"
-                          HorizontalAlignment="Left"
-                          VerticalContentAlignment="Center"
-                          />
-
-                    <dxe:TextEdit x:Name="IDTextEdit" 
-                                  Width="150" 
-                                  Height="40"
-                                  FontSize="18"
-                                  IsEnabled="False"
-                                  DockPanel.Dock="Right"
-                                  HorizontalAlignment="Right"
-                                  CornerRadius="10"
-                                  EditValueChanged="PhoneTextEdit_EditValueChanged"
-                                  />
+                    <local2:TextEditor x:Name="ID"
+                                       Title="ID:"
+                                       EditorEnable="False"/>
 
 
                 </DockPanel>
@@ -56,120 +38,54 @@
                        Height="40"
                        Margin="30,10,30,0">
 
-                    <Label x:Name="FirstNameLabel"
-                       Width="140"
-                       Height="40"
-                       Content="First Name:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                    <dxe:TextEdit x:Name="FirstNameTextEdit" 
-                              Width="150" 
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="PhoneTextEdit_EditValueChanged"
-                              />
+                    <local2:TextEditor x:Name="FirstName"
+                                       Title="First Name:"
+                                       EditValueChanged="FirstNameTextEdit_EditValueChanged"/>
 
                 </DockPanel>
 
-            <DockPanel DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0">
 
-                    <Label x:Name="LastNameLabel"
-                       Width="140"
-                       Height="40"
-                       Content="Last Name::" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                    <dxe:TextEdit x:Name="LastNameTextEdit" 
-                              Width="150" 
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="PhoneTextEdit_EditValueChanged"
-                              />
+                    <local2:TextEditor x:Name="LastName"
+                                       Title="Last Name:"
+                                       EditValueChanged="LastNameTextEdit_EditValueChanged"/>
 
                 </DockPanel>
 
-            <DockPanel DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0"
                        >
-                    <Label x:Name="PhoneLabel"
-                       Width="140"
-                       Height="40"
-                       Content="Phone:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                    <dxe:TextEdit x:Name="PhoneTextEdit" 
-                              Width="150" 
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="PhoneTextEdit_EditValueChanged"
-                              />
+                    <local2:TextEditor x:Name="PhoneNumber"
+                                       Title="Phone:"
+                                       EditValueChanged="PhoneTextEdit_EditValueChanged"/>
                 </DockPanel>
 
-            <DockPanel DockPanel.Dock="Top"
-                       Height="200"
-                       Margin="30,10,30,0"
-                       >
-                <local2:CalenderViewer x:Name="BirthDayCalender"
-                                       TitleContent="Birth Day:"
-                                       CalenderChange="BirthDayCalender_CalenderChange"
-                                       />
+                <DockPanel DockPanel.Dock="Top"
+                           Height="200"
+                           Margin="30,10,30,0"
+                           >
+                    <local2:CalenderViewer x:Name="BirthDayCalender"
+                                           TitleContent="Birth Day:"
+                                           CalenderChange="BirthDayCalender_CalenderChange"
+                                           />
 
-            </DockPanel>
+                </DockPanel>
 
-            <DockPanel DockPanel.Dock="Top"
-                       Height="40"
-                       Margin="30,10,30,0"
-                       >
+                <DockPanel DockPanel.Dock="Top"
+                           Height="40"
+                           Margin="30,10,30,0"
+                           >
 
-                <Label x:Name="ReferralCodeLabel" 
-                       Width="140"
-                       Height="40" 
-                       Content="Referral Code:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       VerticalContentAlignment="Center"
-                       />
+                    <local2:SpinEditor x:Name="ReferralCode"
+                                       Title="Referral Code:"
+                                       EditorWidth="80"
+                                       MinValue="0"
+                                       EditValueChanged="ReferralCodeSpinEdit_EditValueChanged"/>
 
-                <dxe:SpinEdit x:Name="ReferralCodeSpinEdit" 
-                              Width="80"
-                              Height="40"
-                              FontSize="18"
-                              Text="0" 
-                              MinValue="0" 
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Top"
-                              CornerRadius="10"
-                              EditValueChanged="ReferralCodeSpinEdit_EditValueChanged"
-                              />
-
-            </DockPanel>
+                </DockPanel>
 
             <TextBlock x:Name="ReferralerPersonTextBlock"
                        Height="40"
@@ -182,57 +98,25 @@
                        Margin="30,10,30,0"
                        />
 
-            <DockPanel DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0">
 
-                <Label x:Name="StateLabel"
-                       Width="140"
-                       Height="40"
-                       Content="State:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
+                    <local2:TextEditor x:Name="State"
+                                       Title="State:"
+                                       EditValueChanged="StateTextEdit_EditValueChanged"/>
 
-                <dxe:TextEdit x:Name="StateTextEdit" 
-                              Width="150" 
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="StateTextEdit_EditValueChanged"
-                              />
+                </DockPanel>
 
-            </DockPanel>
-
-            <DockPanel DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0">
 
-                <Label x:Name="CityLabel" 
-                       Width="140" 
-                       Height="40"
-                       Content="City:" 
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
+                    <local2:TextEditor x:Name="City"
+                                       Title="City:"
+                                       EditValueChanged="CityTextEdit_EditValueChanged"/>
 
-                <dxe:TextEdit x:Name="CityTextEdit"
-                              Width="150"
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="CityTextEdit_EditValueChanged"
-                              />
-
-            </DockPanel>
+                </DockPanel>
 
             <DockPanel DockPanel.Dock="Top"
                        Height="auto"
@@ -258,32 +142,14 @@
                 
             </DockPanel>
 
-            <DockPanel DockPanel.Dock="Top"
+                <DockPanel DockPanel.Dock="Top"
                        Height="40"
                        Margin="30,10,30,0"
                        >
-
-                <Label x:Name="ZipCodeLabel"
-                       Width="140"
-                       Height="40"
-                       Content="Zip-Code:"
-                       FontSize="20"
-                       DockPanel.Dock="Left"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       />
-
-                <dxe:TextEdit x:Name="ZipCodeTextEdit" 
-                              Width="150" 
-                              Height="40"
-                              FontSize="18"
-                              DockPanel.Dock="Right"
-                              HorizontalAlignment="Right"
-                              CornerRadius="10"
-                              EditValueChanged="ZipCodeTextEdit_EditValueChanged"
-/>
-
-            </DockPanel>
+                    <local2:TextEditor x:Name="ZipCode"
+                                       Title="Zip Code:"
+                                       EditValueChanged="ZipCodeTextEdit_EditValueChanged"/>
+                </DockPanel>
 
             <DockPanel/>
 

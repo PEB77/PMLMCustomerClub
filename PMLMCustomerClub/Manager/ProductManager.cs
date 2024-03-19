@@ -140,20 +140,20 @@ namespace PMLMCustomerClub.Manager
 
         private void Page_PriceChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            Item.Price = int.Parse(Page.PriceBox.Text);
+            Item.Price = Convert.ToInt32(Page.Price.Value);
             AcceptValidation();
         }
 
         private void Page_BrandChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            string brandText = Page.BrandComboBox.SelectedItem as string;
+            string brandText = Page.Brand.SelectedItem as string;
             Item.Brand = (Product.Brands)Enum.Parse(typeof(Product.Brands), brandText.Replace(" ", "_"));
             AcceptValidation();
         }
 
         private void Page_CategoryChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            string categoryText = Page.CategoryComboBox.SelectedItem as string;
+            string categoryText = Page.Category.SelectedItem as string;
             Item.Category = (Product.Categories)Enum.Parse(typeof(Product.Categories), categoryText.Replace(" ", "_"));
             AcceptValidation();
         }
@@ -174,15 +174,15 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Item.ProductID.ToString();
+            Page.ID.Value = Item.ProductID;
             Page.NameBox.Text = Item.ProductName;
-            Page.CategoryComboBox.ItemsSource = SetComboBox(typeof(Product.Categories));
-            Page.BrandComboBox.ItemsSource = SetComboBox(typeof(Product.Brands));
+            Page.Category.EditorSource = SetComboBox(typeof(Product.Categories));
+            Page.Brand.EditorSource = SetComboBox(typeof(Product.Brands));
             if (Item.ProductName != null)
             {
-                Page.CategoryComboBox.Text = Item.Category.ToString().Replace("_", " ");
-                Page.BrandComboBox.Text = Item.Brand.ToString().Replace("_", " ");
-                Page.PriceBox.Text = Item.Price.ToString();
+                Page.Category.Text = Item.Category.ToString().Replace("_", " ");
+                Page.Brand.Text = Item.Brand.ToString().Replace("_", " ");
+                Page.Price.Value = Item.Price;
             }
 
         }

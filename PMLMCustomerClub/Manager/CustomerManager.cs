@@ -43,16 +43,16 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDTextEdit.Text = Item.ID.ToString();
-            Page.FirstNameTextEdit.Text = Item.FirstName;
-            Page.LastNameTextEdit.Text = Item.LastName;
-            Page.PhoneTextEdit.Text = Item.PhoneNumber;
+            Page.ID.TextValue = Item.ID.ToString();
+            Page.FirstName.TextValue = Item.FirstName;
+            Page.LastName.TextValue = Item.LastName;
+            Page.PhoneNumber.TextValue = Item.PhoneNumber;
             Page.BirthDayCalender.SetDate(Item.BirthDay);
-            Page.ReferralCodeSpinEdit.Value = Item.ReferralCode;
-            Page.StateTextEdit.Text = Item.Address.State;
-            Page.CityTextEdit.Text = Item.Address.City;
+            Page.ReferralCode.Value = Item.ReferralCode;
+            Page.State.TextValue = Item.Address.State;
+            Page.City.TextValue = Item.Address.City;
             Page.LocationTextBox.Text = Item.Address.Location;
-            Page.ZipCodeTextEdit.Text = Item.Address.ZipCode;
+            Page.ZipCode.TextValue = Item.Address.ZipCode;
         }
 
         public void InitEvent()

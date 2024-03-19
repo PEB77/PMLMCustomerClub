@@ -60,11 +60,11 @@ namespace PMLMCustomerClub.Manager
 
         public void InitComponent()
         {
-            Page.IDBox.Text = Item.ID.ToString();
-            Page.CustomerNameComboBox.ItemsSource = PrepareCustomerSource(Manager.AllDataTables[ProjectManager.SelectPart.CUSTOMER]);
+            Page.ID.TextValue = Item.ID.ToString();
+            Page.CustomerName.EditorSource = PrepareCustomerSource(Manager.AllDataTables[ProjectManager.SelectPart.CUSTOMER]);
             Page.ProductNameComboBoxEdit.ItemsSource = PrepareProductSource(Manager.AllDataTables[ProjectManager.SelectPart.PRODUCT]);
             Page.ProductSelectedGridControl.ItemsSource = Item.Products;
-            if (IsEditMode) Page.CustomerNameComboBox.Text = Item.Customer.FirstName + "-" + Item.Customer.LastName;
+            if (IsEditMode) Page.CustomerName.Text = Item.Customer.FirstName + "-" + Item.Customer.LastName;
         }
 
         private List<string> PrepareCustomerSource(DataTable table)
@@ -189,16 +189,16 @@ namespace PMLMCustomerClub.Manager
         private void ResetStoreItemPart()
         {
             Page.ProductNameComboBoxEdit.SelectedIndex = -1;
-            Page.ProductInStoreDateExpComboBoxEdit.SelectedIndex = -1;
-            Page.ProductInStoreDateExpComboBoxEdit.IsEnabled = false;
-            Page.ProductAmountSpinEdit.Value = 0;
-            Page.ProductAmountSpinEdit.IsEnabled = false;
+            Page.StoreDateExp.SelectedIndex = -1;
+            Page.StoreDateExp.EditorEnable = false;
+            Page.ProductAmount.Value = 0;
+            Page.ProductAmount.EditorEnable = false;
             Page.ProductSelectedGridControl.ItemsSource = Item.Products;
         }
 
         private void Page_AmountItemChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            int amount = (int)Page.ProductAmountSpinEdit.Value;
+            int amount = (int)Page.ProductAmount.Value;
             NewItem.Amount = amount;
             AddValidation();
         }
@@ -213,9 +213,9 @@ namespace PMLMCustomerClub.Manager
                 {
                     if (item.ExpDate == date)
                     {
-                        Page.ProductAmountSpinEdit.IsEnabled = true;
-                        Page.ProductAmountSpinEdit.MaxValue = item.Amount;
-                        Page.ProductAmountSpinEdit.Value = 0;
+                        Page.ProductAmount.EditorEnable = true;
+                        Page.ProductAmount.MaxValue = item.Amount;
+                        Page.ProductAmount.Value = 0;
                         NewItem = (StoreItem)item.Clone();
                         NewItem.Amount = 0;
                         break;
@@ -231,26 +231,26 @@ namespace PMLMCustomerClub.Manager
             NewItem = new StoreItem();
             if (e.NewValue == null)
             {
-                Page.ProductInStoreDateExpComboBoxEdit.IsEnabled = false;
-                Page.ProductInStoreDateExpComboBoxEdit.SelectedIndex = -1;
-                Page.ProductAmountSpinEdit.Value = 0;
-                Page.ProductAmountSpinEdit.IsEnabled = false;
+                Page.StoreDateExp.EditorEnable = false;
+                Page.StoreDateExp.SelectedIndex = -1;
+                Page.ProductAmount.Value = 0;
+                Page.ProductAmount.EditorEnable = false;
                 AddValidation();
                 return;
             }
             string name = e.NewValue.ToString();
             if (Manager.StoreDatabase.TryExplore(name, out Items))
             {
-                Page.ProductInStoreDateExpComboBoxEdit.IsEnabled = true;
-                Page.ProductInStoreDateExpComboBoxEdit.SelectedIndex = -1;
-                Page.ProductAmountSpinEdit.Value = 0;
-                Page.ProductAmountSpinEdit.IsEnabled = false;
+                Page.StoreDateExp.EditorEnable = true;
+                Page.StoreDateExp.SelectedIndex = -1;
+                Page.ProductAmount.Value = 0;
+                Page.ProductAmount.EditorEnable = false;
                 List<string> expDates = new List<string>();
                 foreach (StoreItem item in Items)
                 {
                     expDates.Add(item.ExpDate.ToString("yyyy-MM-dd"));
                 }
-                Page.ProductInStoreDateExpComboBoxEdit.ItemsSource = expDates;
+                Page.StoreDateExp.EditorSource = expDates;
             }
             
             AddValidation();

@@ -55,7 +55,7 @@ namespace PMLMCustomerClub.View
 
         private void CustomerNameComboBox_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            int index = CustomerNameComboBox.SelectedIndex;
+            int index = CustomerName.SelectedIndex;
             CustomerNameChanged?.Invoke(index, e);
         }
 
