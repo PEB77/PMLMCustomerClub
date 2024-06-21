@@ -14,6 +14,7 @@ namespace PMLMCustomerClub.Manager
     public static class FileManager
     {
         private static string StartUpFilePath = Application.StartupPath;
+        public static string DatabaseFilePath = Path.Combine(StartUpFilePath, "Database\\PMLMCustomerDatabase.db");
         private static string CustomersFolderPath = "\\Database\\CustomerFolderPath";
         private const string CustomerProfileName = "\\CustomerProfile.cp";
         private const string OrderFileIndex = ".order";
@@ -114,6 +115,11 @@ namespace PMLMCustomerClub.Manager
         {
             return StartUpFilePath + CustomersFolderPath +
                 DoubleSlash + order.Customer.FolderName + DoubleSlash + order.FileName + OrderFileIndex;
+        }
+
+        public static bool IsDatabaseExists
+        {
+            get => File.Exists(DatabaseFilePath);
         }
 
     }

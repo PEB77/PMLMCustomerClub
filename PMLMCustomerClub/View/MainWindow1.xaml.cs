@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PMLMCustomerClub.Database;
+using PMLMCustomerClub.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +28,11 @@ namespace PMLMCustomerClub.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (!FileManager.IsDatabaseExists)
+            {
+                CreateDatabase createDatabase = new CreateDatabase();
+                createDatabase.Run().Wait();
+            }
             MainFrame.Content = new EntrancePage(MainFrame);
         }
     }

@@ -203,6 +203,7 @@
     <Compile Include="CustomControls\TextEditor.xaml.cs">
       <DependentUpon>TextEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Database\CreateDatabase.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Database\CustomerDatabase.cs" />
     <Compile Include="Manager\CustomerManager.cs" />
