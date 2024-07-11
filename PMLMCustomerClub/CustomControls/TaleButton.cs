@@ -46,6 +46,7 @@ namespace PMLMCustomerClub.CustomControls
     /// </summary>
     public class TaleButton : Button
     {
+        
         static TaleButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TaleButton), new FrameworkPropertyMetadata(typeof(TaleButton)));
@@ -62,8 +63,6 @@ namespace PMLMCustomerClub.CustomControls
         // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(TaleButton), new PropertyMetadata(default(CornerRadius)));
-
-
 
     }
 }

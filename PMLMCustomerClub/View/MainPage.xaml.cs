@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.View
 {
@@ -35,8 +36,8 @@ namespace PMLMCustomerClub.View
         public delegate void SelectionTabEventHandler(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e);
         public event SelectionTabEventHandler SelectionTab;
 
-        public delegate void ExportStoreItemsEventHandler(object sender, RoutedEventArgs e);
-        public event ExportStoreItemsEventHandler ExportStore;
+        public delegate void MenuItemsEventHandler(MenuBarItems item);
+        public event MenuItemsEventHandler MenuItemEvent;
 
         public Dispatcher UIDispatcher = Dispatcher.CurrentDispatcher;
 
@@ -46,9 +47,24 @@ namespace PMLMCustomerClub.View
             SelectionTab?.Invoke(sender, e);
         }
 
-        private void ExportStoreItems_Click(object sender, RoutedEventArgs e)
+        private void ExportStore_Click(object sender, RoutedEventArgs e)
         {
-            ExportStore?.Invoke(sender, e);
+            MenuItemEvent?.Invoke(MenuBarItems.EXPORT_STORE);
+        }
+
+        private void ExportOrders_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.EXPORT_ORDER);
+        }
+
+        private void ExportProducts_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.EXPORT_PRODUCT);
+        }
+
+        private void ExportCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.EXPORT_CUSTOMER);
         }
 
     }

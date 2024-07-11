@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PMLMCustomerClub.Database;
+using PMLMCustomerClub.Model;
 
 namespace PMLMCustomerClub.Manager
 {
@@ -20,6 +21,7 @@ namespace PMLMCustomerClub.Manager
             STORE,
             PRODUCT
         }
+
         public SelectPart Part = SelectPart.CUSTOMER;
         public Dictionary<SelectPart, DataTable> AllDataTables = new Dictionary<SelectPart, DataTable>();
         public MainPage Main;
@@ -28,6 +30,7 @@ namespace PMLMCustomerClub.Manager
         internal StoreManager StoreManager;
         internal CustomerManager CustomerManager;
         internal OrderManager OrderManager;
+        internal MenuManager MenuManager;
 
         internal ProductDatabase ProductDatabase = new ProductDatabase();
         internal StoreDatabase StoreDatabase = new StoreDatabase();
@@ -137,7 +140,7 @@ namespace PMLMCustomerClub.Manager
             }
 
             Main.SelectionTab += Main_SelectionTab;
-            Main.ExportStore += Main_ExportStore;
+            Main.MenuItemEvent += Main_MenuItemEvent;
             ChangeProductItemSource = new ChangeProductItemSourceEventHandler(SetProductItemSource);
             ChangeStoreItemSource = new ChangeStoreItemSourceEventHandler(SetStoreItemSource);
             ChangeCustomerSource = new ChangeCustomerSourceEventHandler(SetCustomerSource);
@@ -147,16 +150,12 @@ namespace PMLMCustomerClub.Manager
             StoreManager = new StoreManager(this, Main.StoreTableViewer);
             CustomerManager = new CustomerManager(this, Main.CustomerTableViewer);
             OrderManager = new OrderManager(this, Main.OrderTableViewer);
+            MenuManager = new MenuManager(this);
         }
 
-        private void Main_ExportStore(object sender, System.Windows.RoutedEventArgs e)
+        private void Main_MenuItemEvent(MenuBarItems item)
         {
-            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
-            if (folderBrowser.ShowDialog() == DialogResult.OK)
-            {
-                StoreDatabase.Save(folderBrowser.SelectedPath);
-            }
-            
+            MenuManager.MenuBarEventsHandler(item);
         }
 
         private void Main_SelectionTab(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)

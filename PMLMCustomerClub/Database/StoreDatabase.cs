@@ -30,36 +30,6 @@ namespace PMLMCustomerClub.Database
 
         }
 
-        public void Save(string filePath)
-        {
-            DataTable table = GetData();
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (DataColumn column in table.Columns)
-            {
-                sb.Append(column.ColumnName + ",");
-            }
-
-            sb.Remove(sb.Length - 1, 1);
-            sb.Append(Environment.NewLine);
-
-            foreach (DataRow row in table.Rows)
-            {
-                foreach (DataColumn column in table.Columns)
-                {
-                    sb.Append(row[column].ToString() + ",");
-                }
-
-                sb.Remove(sb.Length - 1, 1);
-                sb.Append(Environment.NewLine);
-            }
-
-            filePath += FileName;
-
-            File.WriteAllText(filePath, sb.ToString());
-        }
-
         public override DataTable GetData()
         {
             using (SQLiteConnection con = new SQLiteConnection(ConnectionString))

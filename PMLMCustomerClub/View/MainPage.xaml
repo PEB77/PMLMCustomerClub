@@ -11,39 +11,43 @@
       Title="MainPage"
       Background="White">
 
+    <Page.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="Purple"/>
+        </Style>
+        
+    </Page.Resources>
+    
     <Grid>
-
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Menu Background="WhiteSmoke">
-            <MenuItem Header="File" 
-                      FontSize="12"
-                      x:Name="FileMenu"
-                      Foreground="Purple">
-                <MenuItem Header="New Customer"
-                          FontSize="12"/>
-                <MenuItem Header="New Order"
-                          FontSize="12"/>
-                <MenuItem Header="New Store Item"
-                          FontSize="12"/>
-                <MenuItem Header="New Product"
-                          FontSize="12"/>
-                <MenuItem x:Name="ExportStoreItems"
-                          Header="Export Store Items"
-                          FontSize="12"
-                          Foreground="Purple"
-                          Click="ExportStoreItems_Click"/>
+
+            
+            
+            <MenuItem Header="Export"
+                      x:Name="FileMenu">
+                
+                <MenuItem x:Name="ExportStore"
+                          Header="Store"
+                          Click="ExportStore_Click"/>
+                <MenuItem x:Name="ExportOrders"
+                          Header="Orders"
+                          Click="ExportOrders_Click"/>
+                <MenuItem x:Name="ExportProducts"
+                          Header="Products"
+                          Click="ExportProducts_Click"/>
+                <MenuItem x:Name="ExportCustomers"
+                          Header="Customers"
+                          Click="ExportCustomers_Click"/>
 
             </MenuItem>
-            <MenuItem Header="Setting" 
-                      FontSize="12"
-                      x:Name="SettingMenu"
-                      Foreground="Purple">
-
-            </MenuItem>
+            
         </Menu>
 
         <DockPanel Grid.Row="1">

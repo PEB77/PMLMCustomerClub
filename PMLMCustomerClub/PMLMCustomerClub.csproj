@@ -204,11 +204,13 @@
       <DependentUpon>TextEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\CreateDatabase.cs" />
+    <Compile Include="Manager\MenuManager.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Database\CustomerDatabase.cs" />
     <Compile Include="Manager\CustomerManager.cs" />
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\IManager.cs" />
+    <Compile Include="Model\MenuBarItems.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\OrderDatabase.cs" />
