@@ -1,9 +1,11 @@
 ﻿using DevExpress.Data.Entity;
+using IronXL;
 using Org.BouncyCastle.Tls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +25,14 @@ namespace PMLMCustomerClub.Database
         public abstract void Delete(int ID);
         public abstract T Explore(int ID);
         public abstract bool TryExplore(int ID, out T result);
-        public virtual void Save(string filePath, string fileName)
+        public abstract void Load(string filePath);
+        protected virtual DataTable ReadExcel(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            WorkSheet cells = workBook.DefaultWorkSheet;
+            return cells.ToDataTable(true);
+        }
+        public virtual void Save(string filePath)
         {
             DataTable table = GetData();
 
@@ -47,8 +56,6 @@ namespace PMLMCustomerClub.Database
                 sb.Remove(sb.Length - 1, 1);
                 sb.Append(Environment.NewLine);
             }
-
-            filePath = Path.Combine(filePath, (fileName + ".csv"));
 
             File.WriteAllText(filePath, sb.ToString());
         }

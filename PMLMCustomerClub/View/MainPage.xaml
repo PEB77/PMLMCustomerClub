@@ -27,18 +27,13 @@
         </Grid.RowDefinitions>
 
         <Menu Background="WhiteSmoke">
-
-            
             
             <MenuItem Header="Export"
-                      x:Name="FileMenu">
-                
+                      x:Name="ExportMenu">
+
                 <MenuItem x:Name="ExportStore"
                           Header="Store"
                           Click="ExportStore_Click"/>
-                <MenuItem x:Name="ExportOrders"
-                          Header="Orders"
-                          Click="ExportOrders_Click"/>
                 <MenuItem x:Name="ExportProducts"
                           Header="Products"
                           Click="ExportProducts_Click"/>
@@ -47,7 +42,19 @@
                           Click="ExportCustomers_Click"/>
 
             </MenuItem>
-            
+
+            <MenuItem Header="Import"
+                      x:Name="ImportFile">
+                <MenuItem x:Name="ImportStore"
+                          Header="Store"
+                          Click="ImportStore_Click"/>
+                <MenuItem x:Name="ImportProducts"
+                          Header="Products"
+                          Click="ImportProducts_Click"/>
+                <MenuItem x:Name="ImportCustomers"
+                          Header="Customers"
+                          Click="ImportCustomers_Click"/>
+            </MenuItem>
         </Menu>
 
         <DockPanel Grid.Row="1">

@@ -159,5 +159,9 @@ namespace PMLMCustomerClub.Database
             throw new NotImplementedException();
         }
 
+        public override void Load(string filePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

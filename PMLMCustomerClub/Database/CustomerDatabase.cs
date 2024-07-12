@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using PMLMCustomerClub.View;
 using PMLMCustomerClub.Model;
 using System.Data.SQLite;
+using PMLMCustomerClub.Manager;
 
 namespace PMLMCustomerClub.Database
 {
@@ -203,5 +204,24 @@ namespace PMLMCustomerClub.Database
             Update(customer);
         }
 
+        public override void Load(string filePath)
+        {
+            DataTable dt = ReadExcel(filePath);
+            try
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    Customer item = Customer.GetCustomer(row);
+                    if (!item.Validation()) continue;
+                    item.ID = GetNextID();
+                    FileManager.SaveCustomer(item);
+                    Insert(item);
+                }
+            }
+            catch
+            {
+                throw (new Exception("Your file is not valid"));
+            }
+        }
     }
 }

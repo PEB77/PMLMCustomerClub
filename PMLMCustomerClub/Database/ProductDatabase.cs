@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -130,6 +132,23 @@ namespace PMLMCustomerClub.Database
             throw new NotImplementedException();
         }
 
-
+        public override void Load(string filePath)
+        {
+            DataTable dt = ReadExcel(filePath);
+            try
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    Product product = Product.GetProduct(row);
+                    if (!product.Validation()) continue;
+                    product.ProductID = GetNextID();
+                    Insert(product);
+                }
+            }
+            catch
+            {
+                throw (new Exception("Your file is not valid"));
+            }
+        }
     }
 }

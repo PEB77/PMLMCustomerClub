@@ -316,5 +316,24 @@ namespace PMLMCustomerClub.Database
 
             }
         }
+
+        public override void Load(string filePath)
+        {
+            DataTable dt = ReadExcel(filePath);
+            try
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    StoreItem item = StoreItem.GetStoreItem(row);
+                    if (!item.Validation()) continue;
+                    item.StoreID = GetNextID();
+                    Insert(item);
+                }
+            }
+            catch
+            {
+                throw (new Exception("Your file is not valid"));
+            }
+        }
     }
 }

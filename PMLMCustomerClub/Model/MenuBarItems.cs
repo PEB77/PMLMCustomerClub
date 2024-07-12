@@ -10,8 +10,10 @@ namespace PMLMCustomerClub.Model
     {
         EXPORT_STORE,
         EXPORT_PRODUCT,
-        EXPORT_ORDER,
-        EXPORT_CUSTOMER
+        EXPORT_CUSTOMER,
+        IMPORT_STORE,
+        IMPORT_PRODUCT,
+        IMPORT_CUSTOMER
     }
 
 }

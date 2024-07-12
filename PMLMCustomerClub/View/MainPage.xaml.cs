@@ -52,11 +52,6 @@ namespace PMLMCustomerClub.View
             MenuItemEvent?.Invoke(MenuBarItems.EXPORT_STORE);
         }
 
-        private void ExportOrders_Click(object sender, RoutedEventArgs e)
-        {
-            MenuItemEvent?.Invoke(MenuBarItems.EXPORT_ORDER);
-        }
-
         private void ExportProducts_Click(object sender, RoutedEventArgs e)
         {
             MenuItemEvent?.Invoke(MenuBarItems.EXPORT_PRODUCT);
@@ -67,5 +62,19 @@ namespace PMLMCustomerClub.View
             MenuItemEvent?.Invoke(MenuBarItems.EXPORT_CUSTOMER);
         }
 
+        private void ImportStore_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.IMPORT_STORE);
+        }
+
+        private void ImportProducts_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.IMPORT_PRODUCT);
+        }
+
+        private void ImportCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemEvent?.Invoke(MenuBarItems.IMPORT_CUSTOMER);
+        }
     }
 }

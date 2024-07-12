@@ -156,6 +156,11 @@ namespace PMLMCustomerClub.Manager
         private void Main_MenuItemEvent(MenuBarItems item)
         {
             MenuManager.MenuBarEventsHandler(item);
+            LoadDatabases().Wait();
+            Main.CustomerTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.CUSTOMER];
+            Main.OrderTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.ORDER];
+            Main.StoreTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.STORE];
+            Main.ProductTableViewer.GridControlProp.ItemsSource = AllDataTables[SelectPart.PRODUCT];
         }
 
         private void Main_SelectionTab(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
