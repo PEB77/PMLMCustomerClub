@@ -8,10 +8,8 @@ namespace PMLMCustomerClub.Model
 {
     public enum MenuBarItems
     {
-        EXPORT_STORE,
         EXPORT_PRODUCT,
         EXPORT_CUSTOMER,
-        IMPORT_STORE,
         IMPORT_PRODUCT,
         IMPORT_CUSTOMER
     }

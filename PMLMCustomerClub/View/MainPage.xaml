@@ -27,13 +27,9 @@
         </Grid.RowDefinitions>
 
         <Menu Background="WhiteSmoke">
-            
+
             <MenuItem Header="Export"
                       x:Name="ExportMenu">
-
-                <MenuItem x:Name="ExportStore"
-                          Header="Store"
-                          Click="ExportStore_Click"/>
                 <MenuItem x:Name="ExportProducts"
                           Header="Products"
                           Click="ExportProducts_Click"/>
@@ -45,9 +41,6 @@
 
             <MenuItem Header="Import"
                       x:Name="ImportFile">
-                <MenuItem x:Name="ImportStore"
-                          Header="Store"
-                          Click="ImportStore_Click"/>
                 <MenuItem x:Name="ImportProducts"
                           Header="Products"
                           Click="ImportProducts_Click"/>

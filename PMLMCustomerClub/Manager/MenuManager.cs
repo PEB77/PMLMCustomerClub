@@ -41,7 +41,6 @@ namespace PMLMCustomerClub.Manager
                 
                 switch (item)
                 {
-                    case MenuBarItems.EXPORT_STORE: Manager.StoreDatabase.Save(saveFileDialog.FileName); break;
                     case MenuBarItems.EXPORT_PRODUCT: Manager.ProductDatabase.Save(saveFileDialog.FileName); break;
                     case MenuBarItems.EXPORT_CUSTOMER: Manager.CustomerDatabase.Save(saveFileDialog.FileName); break;
                 }
@@ -59,7 +58,6 @@ namespace PMLMCustomerClub.Manager
 
                 switch (item)
                 {
-                    case MenuBarItems.IMPORT_STORE: Manager.StoreDatabase.Load(openFileDialog.FileName); break;
                     case MenuBarItems.IMPORT_PRODUCT: Manager.ProductDatabase. Load(openFileDialog.FileName); break;
                     case MenuBarItems.IMPORT_CUSTOMER: Manager.CustomerDatabase.Load(openFileDialog.FileName); break;
                 }
